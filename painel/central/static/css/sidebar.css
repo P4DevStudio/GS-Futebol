@@ -1,8 +1,8 @@
 /* Sidebar expandida */
 .vertical-menu {
     width: 240px !important; /* Largura padrão da sidebar expandida */
-    background-color: #343a40 !important; /* Cor de fundo */
-    transition: width 0.6s ease !important; /* Transição suave ao minimizar */
+    background-color: #343a40 !important;
+    transition: width 0.3s ease !important;
     position: fixed !important;
     top: 0 !important;
     left: 0 !important;
@@ -13,26 +13,34 @@
 
 /* Sidebar minimizada */
 .vertical-menu.minimized {
-    width: 60px !important; /* Largura quando minimizada */
+    width: 60px !important;
     transition: width 0.3s ease !important;
 }
 
-/* Alinha o logo da sidebar ao minimizar */
+/* Logo expandida (SVG ou imagem normal) */
 .vertical-menu .logo-expanded {
-    display: block !important; /* Logo aparece quando expandida */
+    display: block !important;
+    width: 120px !important; /* Define o tamanho máximo da logo expandida */
+    height: auto !important; /* Preserva a proporção da logo */
+    margin: 20px auto !important; /* Centraliza a logo */
 }
 
+/* Esconde a logo expandida quando a sidebar está minimizada */
 .vertical-menu.minimized .logo-expanded {
-    display: none !important; /* Esconde logo quando minimizada */
+    display: none !important;
 }
 
+/* Logo minimizada (SVG ou ícone) */
 .vertical-menu .logo-minimized {
-    display: none !important; /* Esconde logo quando expandida */
+    display: none !important;
+    width: 40px !important; /* Define o tamanho máximo da logo minimizada */
+    height: auto !important; /* Preserva a proporção da logo */
+    margin: 10px auto !important; /* Centraliza a logo minimizada */
 }
 
+/* Mostra a logo minimizada quando a sidebar está minimizada */
 .vertical-menu.minimized .logo-minimized {
-    display: block !important; /* Mostra logo quando minimizada */
-    margin: 10px auto !important;
+    display: block !important;
 }
 
 /* Estilo dos links da sidebar */
@@ -42,6 +50,7 @@
     margin: 0 !important;
 }
 
+/* Estilo dos links e ícones da sidebar */
 .vertical-menu ul li a {
     color: white !important;
     padding: 15px !important;
@@ -50,12 +59,12 @@
     align-items: center !important;
 }
 
-/* Centraliza ícones quando a sidebar está minimizada */
+/* Centraliza os ícones quando a sidebar está minimizada */
 .vertical-menu.minimized ul li a {
     justify-content: center !important;
 }
 
-/* Esconde o texto das opções do menu quando minimizada */
+/* Esconde o texto das opções do menu quando a sidebar está minimizada */
 .vertical-menu.minimized ul li a span {
     display: none !important;
 }
