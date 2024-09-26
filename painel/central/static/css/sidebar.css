@@ -72,6 +72,6 @@
 /* Responsividade */
 @media (max-width: 768px) {
     .vertical-menu {
-        width: 60px !important; /* Sidebar minimizada por padrão em telas menores */
+        width: 60px; /* Sidebar minimizada por padrão em telas menores */
     }
 }

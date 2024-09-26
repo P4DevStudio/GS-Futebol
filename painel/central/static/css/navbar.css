@@ -108,7 +108,7 @@
 /* Responsividade para dispositivos móveis */
 @media (max-width: 768px) {
     .navbar-header {
-        width: 100vw !important; /* Ocupa 100% da largura em dispositivos móveis */
-        margin-left: 0 !important; /* Sem margem */
+        width: 100vw ; /* Ocupa 100% da largura em dispositivos móveis */
+        margin-left: 0; /* Sem margem */
     }
 }
