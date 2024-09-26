@@ -1,19 +1,19 @@
 /* Sidebar expandida */
 .vertical-menu {
-    width: 240px !important; /* Largura padrão da sidebar expandida */
-    background-color: #343a40 !important;
-    transition: width 0.3s ease !important;
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    height: 100vh !important;
-    overflow: hidden !important;
-    z-index: 999 !important;
+    width: 240px;
+    background-color: #343a40;
+    transition: all 0.3s ease;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 999;
 }
 
 /* Sidebar minimizada */
 .vertical-menu.minimized {
-    width: 60px !important;
+    width: 60px;
     transition: width 0.3s ease !important;
 }
 
@@ -69,9 +69,47 @@
     display: none !important;
 }
 
-/* Responsividade */
+@media (max-width: 576px) {
+    .vertical-menu {
+        display: none;
+    }
+    .navbar-header .toggle-sidebar {
+        display: block; /* Display a button to open the sidebar */
+    }
+}
+
+/* Sidebar oculta em telas menores */
 @media (max-width: 768px) {
     .vertical-menu {
-        width: 60px; /* Sidebar minimizada por padrão em telas menores */
+        transform: translateX(-100%); /* Oculta a sidebar fora da tela no mobile */
+        transition: transform 0.3s ease;
+    }
+
+    .vertical-menu.active {
+        transform: translateX(0); /* Exibe a sidebar quando o botão de menu é clicado */
+    }
+}
+
+/* Adiciona um botão de menu na navbar para abrir/fechar a sidebar */
+.navbar-header .toggle-sidebar {
+    display: block;
+    background-color: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* Adiciona espaço para o conteúdo quando a sidebar está oculta */
+.main-content {
+    margin-left: 240px;
+}
+
+.main-content.sidebar-minimized {
+    margin-left: 60px;
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 0 !important; /* Remove o deslocamento do conteúdo no mobile */
     }
 }

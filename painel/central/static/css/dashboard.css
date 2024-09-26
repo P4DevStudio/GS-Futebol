@@ -1,13 +1,13 @@
 /* Ajuste do conteúdo com sidebar expandida */
 .main-content {
-    margin-left: 240px !important; /* Margem alinhada com a sidebar expandida */
-    transition: all 0.3s ease !important;
-    padding: 20px !important;
+    margin-left: 240px;
+    transition: all 0.6s ease;
+    padding: 20px;
 }
 
 /* Ajuste do conteúdo com sidebar minimizada */
 .main-content.sidebar-minimized {
-    margin-left: 60px !important; /* Margem ajustada quando a sidebar é minimizada */
+    margin-left: 60px ; /* Margem ajustada quando a sidebar é minimizada */
     transition: all 0.3s ease !important;
 }
 
@@ -40,10 +40,15 @@
     background-color: rgba(0, 0, 0, 0.05) !important;
 }
 
-/* Responsividade para dispositivos móveis */
+/* Ajuste do dashboard para dispositivos móveis */
 @media (max-width: 768px) {
     .main-content {
-        margin-left: 60px !important; /* Sidebar minimizada por padrão em dispositivos móveis */
-        width: 100% !important; /* O conteúdo ocupa 100% da tela */
+        margin-left: 0; /* Preenche toda a tela */
+        padding: 15px;
+        width: 100%;
+    }
+
+    .table-responsive {
+        overflow-x: auto; /* Garante que a tabela seja rolável em telas pequenas */
     }
 }
