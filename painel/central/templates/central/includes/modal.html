@@ -1,0 +1,97 @@
+{% load static %}
+{% load i18n %}
+
+	<!-- Modal Base-->
+	<!-- <div class="modal fade" id="modalBase" tabindex="-1" aria-labelledby="modalBaseModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="modalBaseModalLabel">Title</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+			
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-sm btn-cancel-rounded" data-bs-dismiss="modal">{% trans 'Cancelar' %}</button>
+				<button type="button" class="btn btn-sm btn-whatsapp-rounded" id="btnModalDuplicateStrategy">{% trans 'Duplicar' %}</button>
+			</div>
+		</div>
+		</div>
+	</div> -->
+
+{% if 'strategies/' in request.path or 'results/' in request.path %}
+	<!-- Modal duplicateStrategyModal -->
+	<div class="modal fade" id="duplicateStrategyModal" tabindex="-1" aria-labelledby="duplicateStrategyModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title neo-bold" id="duplicateStrategyModalLabel">Title</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+			
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-sm btn-cancel-rounded px-3" data-bs-dismiss="modal">{% trans 'Não' %}</button>
+				<button type="button" class="btn btn-sm btn-whatsapp-rounded px-3" id="btnModalDuplicateStrategy">{% trans 'Sim' %}</button>
+			</div>
+		</div>
+		</div>
+	</div>
+{% endif %}
+
+{% if '/add-strategy/' in request.path or '/edit-strategy/' in request.path %}
+	<div class="modal fade" id="gallery" tabindex="-1" aria-labelledby="galleryLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="galleryLabel">{% trans 'Galeria' %}</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					{% if images %}
+						{% for item in images %}
+						<div class="col-4 col-md-3 mt-3">
+							<div class="bg-light shadow-sm rounded p-1">
+								<div class="d-flex align-items-center position-relative">
+									<div class="col-12">
+										<img class="img-fluid set-image" data-bs-dismiss="modal" src="{% if item.image.url %}{{ item.image.url }}{% endif %}" alt="">
+									</div>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					{% else %}
+						<div class="text-center">
+							<h2><i class="fas fa-images"></i></h2>
+							<p>{% trans 'Suas imagens aparecerão aqui após você adicioná-las na galeria' %}</p>
+							<a href="{% url 'GalleryListView' %}" class="mt-2 btn btn-sm btn-whatsapp rounded-custom ">{% trans 'Ir para galeria' %}</a>
+						</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+		</div>
+	</div>
+{% endif %}
+
+<!-- <div class="modal fade" id="modalVerifyGroup" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+	<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<h5 class="modal-title">Integração...</h5>
+			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		</div>
+		<div class="modal-body text-center small px-5 integration_message">
+		</div>
+		<div class="text-center integration_img">
+			<img class="text-center img-fluid" src="{% static 'img/robo-sinais.png' %}" alt="robô">
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-sm btn-whatsapp-rounded" id="btnModalVerifyGroup" data-bs-dismiss="modal">Continuar</button>
+		</div>
+	</div>
+	</div>
+</div> -->

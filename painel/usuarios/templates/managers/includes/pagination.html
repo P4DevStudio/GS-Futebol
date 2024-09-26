@@ -1,0 +1,49 @@
+{% load static %}
+{% load i18n %}	
+{% load template_filters_extras %}
+
+{% with request.get_full_path as querystring %}
+<div class="container mt-3 d-flex justify-content-center">
+    <nav aria-label="...">
+        <ul class="pagination">
+
+            {% if page_obj.has_previous %}
+            <li class="page-item shadow-sm">
+                {% if '_' in querystring %}
+                {% if 'page=' not in querystring %}
+                <a class="page-link small" href='{{ querystring }}&page={{ page_obj.previous_page_number }}'> {% trans 'Anterior' %}</a>
+                {% else %}
+                <a class="page-link small" href='{{ querystring|urlpathclean }}&page={{ page_obj.previous_page_number }}'> {% trans 'Anterior' %}</a>
+                {% endif %}
+                {% else %}
+                <a class="page-link small" href="?page={{ page_obj.previous_page_number }}"> {% trans 'Anterior' %}</a>
+                {% endif %}
+            </li>
+            {% endif %}
+
+            {% if page_obj and page_obj.paginator.num_pages > 1 %}
+            <li class="page-item active">
+                <span class="page-link disabled neo-regular small shadow-sm">
+                    {% trans 'Página' %} {{ page_obj.number }} {% trans 'de' %} {{ page_obj.paginator.num_pages }}
+                </span>
+            </li>
+            {% endif %}
+
+            {% if page_obj.has_next %}
+            <li class="page-item shadow-sm">
+                {% if '_' in querystring %}
+                {% if 'page=' not in querystring %}
+                <a class="page-link small" href='{{ querystring }}&page={{ page_obj.next_page_number }}'>{% trans 'Próxima' %}</a>
+                {% else %}
+                <a class="page-link small" href='{{ querystring|urlpathclean }}&page={{ page_obj.next_page_number }}'>{% trans 'Próxima' %}</a>
+                {% endif %}
+                {% else %}
+                <a class="page-link small" href="?page={{ page_obj.next_page_number }}">{% trans 'Próxima' %}</a>
+                {% endif %}
+            </li>
+            {% endif %}
+
+        </ul>
+    </nav>
+</div>
+{% endwith %}

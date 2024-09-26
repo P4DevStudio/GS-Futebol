@@ -1,0 +1,50 @@
+{% load static %}
+{% load i18n %}	
+{% load template_filters_extras %}
+
+<div class="modal fade" id="createUserModal" tabindex="-1" aria-labelledby="createUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title neo-bold">{% trans 'Adicionar cliente' %}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form class="validating" id="formCreateUser">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="client-name" class="col-form-label">{% trans 'Nome' %}*</label>
+                        <input type="text" class="form-control" id="client-name" autocomplete="off" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="client-email" class="col-form-label">{% trans 'Email' %}*</label>
+                        <input type="email" class="form-control" id="client-email" autocomplete="off" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="client-phone" class="col-form-label">{% trans 'Telefone' %}*</label>
+                        <input type="number" pattern="[0-9]{10,15}" class="form-control" id="client-phone" autocomplete="off" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="client-rooms" class="col-form-label">{% trans 'Quantidade de salas' %}*</label>
+                        <input type="number" min="1" max="30" class="form-control" id="client-rooms" autocomplete="off" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="client-password" class="col-form-label">{% trans 'Senha' %}*</label>
+                        <input type="text" class="form-control" id="client-password" minlength="8" autocomplete="new-password" required>
+                        <ul class="small">
+                            <li>{% trans 'Sua senha não pode ser muito parecida com o resto das suas informações pessoais.' %}</li>
+                            <li>{% trans 'Sua senha precisa conter pelo menos 8 caracteres.' %}</li>
+                            <li>{% trans 'Sua senha não pode ser uma senha comumente utilizada.' %}</li>
+                            <li>{% trans 'Sua senha não pode ser inteiramente numérica.' %}</li>
+                        </ul>
+                    </div>
+                    <div><small>{% trans 'Campos marcados com * são de preenchimento obrigatório.' %}</small></div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-cancel-rounded" data-bs-dismiss="modal">{% trans 'Cancelar' %}</button>
+                    <input type="submit" name="submit" value="{% trans 'Adicionar' %}" class="btn btn-sm btn-whatsapp-rounded px-3 ms-3">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

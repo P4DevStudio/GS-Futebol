@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}	
+{% load template_filters_extras %}
+
+{% block title %}{% trans 'Gerente' %}{% endblock %}
+
+{% block custom_meta %}
+	{{ block.super }}
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+{% endblock %}
+
+{% block content %}
+
+<main>
+	<div class="container">
+		<div class="row mt-3">
+
+			{% include "managers/includes/sidebar.html" %}
+
+			<div class="col-12 col-md-9">
+				{% if 'accounts/' in request.path %}
+					{% include "managers/includes/listing_accounts.html" %}
+				{% elif 'rooms/' in request.path %}
+					{% include "managers/includes_listing/rooms.html" %}
+				{% elif 'calculate-invoice/' in request.path %}
+					{% include "managers/includes_listing/calculate_invoice.html" %}
+				{% elif 'invoices/' in request.path %}
+					{% include "managers/includes_listing/invoices.html" %}
+                {% endif %}
+                    
+				{% include "managers/includes/pagination.html" %}
+
+			</div> <!--  col-12 -->
+		</div> <!--  row -->
+
+		<!-- Modal -->
+		{% include "managers/includes/modal_create_user.html" %}
+
+	</div> <!-- container -->
+</main>
+{% endblock %}
+
+{% block js %}
+	{{ block.super }}
+
+    {% comment %}
+	<script>
+		var EndpointCreateUser = "{% url 'create_user_with_json' request.user.perfil.cod %}";
+		var EndpointDisableUser = "{% url 'disable_user_with_json' request.user.perfil.cod %}";
+		var EndpointReactivateUser = "{% url 'reactivate_user_with_json' request.user.perfil.cod %}";
+		var EndpointChangePlanUser = "{% url 'change_plan_user_with_json' request.user.perfil.cod %}";
+		var EndpointDeleteRoom = "{% url 'api_delete_room' request.user.perfil.cod %}";
+		var EndpointActiveRoom = "{% url 'api_turn_on_room' request.user.perfil.cod %}";
+		var EndpointDisableRoom = "{% url 'api_turn_off_room' request.user.perfil.cod %}";
+	</script>
+    {% endcomment %}
+	<script src="{% static 'js/master_usuarios.js' %}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
+	<script>
+		$(document).ready(function() {
+            flatpickr("#start_date", {
+                dateFormat: "d/m/Y",
+				allowInput: true,
+				maxDate: "today",
+				locale: "pt"
+            });
+            flatpickr("#end_date", {
+                dateFormat: "d/m/Y",
+				allowInput: true,
+				locale: "pt"
+            });
+        });
+	</script>
+
+{% endblock %}

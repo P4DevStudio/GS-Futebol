@@ -1,0 +1,16 @@
+{% load static %}
+{% load i18n %}
+<div class="bg-light mt-5" id="filterPanel">
+    <span class="loader" style="display: none;"></span>
+    <h4 class="neo-bold mt-4 p-3">{% trans 'Filtros' %}</h4>
+    <div class="scroll">
+        <form method="get" id="formFilter">
+            <div class="accordion mt-2 p-2" id="accordionPanelsStayOpenExample">
+            </div>
+        </form>
+    </div>
+    <div class="div-btn-filter bg-light p-3">
+        <button class="btn btn-sm btn-whatsapp-rounded col-12" id="btn-filter">{% trans 'Aplicar Filtros' %}</button>
+    </div>
+</div>
+

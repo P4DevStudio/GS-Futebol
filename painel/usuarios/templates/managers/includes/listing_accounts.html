@@ -1,0 +1,124 @@
+{% load static %}
+{% load i18n %}	
+{% load template_filters_extras %}
+
+<div class="col-12 bg-light shadow-sm rounded-custom-top p-3 mt-3" id="salas">
+    <h4 class="neo-bold mb-0">{% trans 'Contas' %}</h4>
+</div>
+{% if lista %}
+
+<div class="col-12">
+    <div class="row d-flex">
+        <div class="col-12 col-sm-2">
+            <div class="shadow-sm bg-light rounded mt-3 p-3">
+                <small class=""><b>{% trans 'Total de clientes' %}</b></small>
+                <h5 class="text-orange"><b>{{ total_clients }}</b></h5>
+            </div>
+        </div>
+        <div class="col-12 col-sm-2">
+            <div class="shadow-sm bg-light rounded mt-3 p-3">
+                <small class=""><b>{% trans 'Total de salas' %}</b></small>
+                <h5 class="text-orange"><b>{{ total_rooms }}</b></h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-12 bg-light shadow-sm rounded mt-3 p-3">
+    <form class="" action="{% url 'ManagerUserListView' %}" method="GET">
+        <div class="input-group">
+            <input type="text" name="_q" class="form-control" placeholder="{% trans 'Digite o nome ou email...' %}">
+            <button type="submit" class="btn btn-whatsapp rounded-custom-left-top rounded-custom-right px-3">{% trans 'Buscar' %}</button>
+        </div>
+    </form>
+</div>
+
+<div class="col-12 bg-light shadow-sm rounded-custom-bottom p-3 mt-3 table-responsive">
+    <table class="table table-sm small table-hover" id="myTable2">
+        <thead>
+        <tr class="text-nowrap">
+            <th scope="col" role="button" onclick="sortTable(0, 0)"><i class="fas fa-ellipsis-v"></i></th>
+            <th scope="col" role="button" onclick="sortTable(1)">{% trans 'Conta' %}</th>
+            <th scope="col" role="button" onclick="sortTable(2)">{% trans 'Email' %}</th>
+            <th scope="col" role="button" onclick="sortTable(3)">{% trans 'Status' %}</th>
+            <th scope="col" role="button" onclick="sortTable(4)">{% trans 'Nº Salas' %}</th>
+            <th scope="col" role="button" onclick="sortTable(5)">{% trans 'Criado em' %}</th>
+            <th scope="col" role="button" onclick="sortTable(6)">{% trans 'Próx. Vencimento' %}</th>
+            {% if user|has_group:"SUPER_GERENTE" %}
+            <th scope="col">{% trans 'Opções' %}</th>
+            {% endif %}
+        </tr>
+        </thead>
+        <tbody>
+        {% now "d/m/Y" as today %}
+        {% for item in lista %}
+        <tr class="align-middle text-nowrap">
+            <td>{{ forloop.counter }}</td>
+            <td>{{ item.first_name|title }}</td>
+            <td>{{ item.email }}</td>
+            <td>
+                <div>
+                    {% if item.is_active %} 
+                    <span class="badge-soft-success px-3 py-1 rounded-custom">{% trans 'Ativo' %}</span>
+                    {% else %}
+                    <span class="badge-soft-danger px-3 py-1 rounded-custom">{% trans 'Desativado' %}</span>
+                    {% endif %}
+                </div>
+            </td>
+            <td class="number_rooms">
+                {% if item.n_rooms == '1' %}
+                    <span class="badge-soft-pink px-3 py-1 rounded-custom d-inline-block">{{ item.n_rooms }} {% trans 'Sala' %}</span>
+                {% elif item.n_rooms == '2' %}										
+                    <span class="badge-soft-warning px-3 py-1 rounded-custom d-inline-block">{{ item.n_rooms }} {% trans 'Salas' %}</span>
+                {% else %}
+                    <span class="badge-soft-orange px-3 py-1 rounded-custom d-inline-block">{{ item.n_rooms }} {% trans 'Salas' %}</span>
+                {% endif %}
+            </td>
+            <td>{{ item.date_joined|date:"d/m/Y" }}</td>
+            <td>
+                {% if today < item.due_date|date:"d/m/Y" %}
+                    <span class="badge-soft-success px-3 py-1 rounded-custom">{{ item.due_date|date:"d/m/Y" }}</span>
+                {% else %}
+                    <span class="badge-soft-danger px-3 py-1 rounded-custom">{{ item.due_date|date:"d/m/Y" }}</span>
+                {% endif %}
+            </td>
+            {% if user|has_group:"SUPER_GERENTE" %}
+            <td> <!-- class="text-center d-flex" -->
+                <div>
+                    <button class="btn btn-sm btn-cancel rounded-custom me-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        {% trans 'Opções' %} <i class="far fa-edit text-muted"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm bg-light" style="-webkit-transform: translate3d(0, 0, 0);transform: translate3d(0, 0, 0); position: absolute;z-index: 999999;">
+                        {% if item.is_active %}
+                        <li><button type="button" class="dropdown-item small" data-bs-toggle="modal" data-bs-target="#changePlanModal" data-email="{{ item.email }}" data-plan="{{ item.n_rooms }}">{% trans 'Alterar plano' %}</button></li>
+                        <li><button type="button" class="dropdown-item small disable_user" data-email="{{ item.email }}">{% trans 'Desativar cliente' %}</button></li>
+                        {% else %}
+                        <li><button type="button" class="dropdown-item small reactivate_user" data-email="{{ item.email }}">{% trans 'Reativar cliente' %}</button></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal -->
+{% include "managers/includes/modal_change_plan.html" %}
+
+{% else %}
+<div class="col-12 bg-light shadow-sm rounded mt-3 p-3">
+    <form class="" action="{% url 'ManagerUserListView' %}" method="GET">
+        <div class="input-group">
+            <input type="text" name="_q" class="form-control" placeholder="{% trans 'Digite o nome ou email...' %}">
+            <button type="submit" class="btn btn-whatsapp rounded-custom-left-top rounded-custom-right px-3">{% trans 'Buscar' %}</button>
+        </div>
+    </form>
+</div>
+
+<div class="col-12 bg-light shadow-sm rounded-custom-bottom p-3 mt-3 table-responsive">
+    <p>{% trans 'Nada encontrado...' %}</p>
+</div>	
+{% endif %}

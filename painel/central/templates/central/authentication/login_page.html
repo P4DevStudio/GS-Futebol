@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}	
+{% load crispy_forms_tags %}
+
+{% block title %}Login{% endblock %}
+
+{% block head %}
+	{{ block.super }}
+	<script src="https://www.google.com/recaptcha/enterprise.js?render=6Ld8USUkAAAAAGEBsPttvcSx5yYP4nysCWYvmBZJ"></script>
+	<script>
+	grecaptcha.enterprise.ready(function() {
+		grecaptcha.enterprise.execute('6Ld8USUkAAAAAGEBsPttvcSx5yYP4nysCWYvmBZJ', {action: 'login'}).then(function(token) {
+		});
+	});
+	</script>
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+	<div class="container py-5">
+		<div class="row col-lg-5 justify-content-center mx-auto bg-black shadow rounded-custom text-white">
+			<div class="text-center my-0">
+				<div class="pt-3">
+					{% if next %}
+					{% if user.is_authenticated %}
+					<div class="alert alert-warning" role="alert">
+						{% trans 'Ação não permitida. Faça login para continuar' %}
+					</div>
+					{% else %}
+					<div class="alert alert-warning" role="alert">
+						{% trans 'Faça login para continuar' %}
+					</div>
+					{% endif %}
+					{% endif %}
+				</div>
+				<br>
+				{% comment %} <img class="img-flui" src="{% static 'img/logo.svg' %}" alt="logo" height="28"> {% endcomment %}
+				{% comment %} <p class="mt-1 mb-4">{% trans 'Salas de Sinais Automatizadas' %}</p> {% endcomment %}
+				<img class="img-flui" src="{% if whitelabel.logo_image %} {{ whitelabel.logo_image.url }}{% endif %}" alt="logo" height="28">
+				<p class="mt-1 mb-4">{{ whitelabel.slogan|default:"" }}</p>
+			</div>
+			<div class="col-md-10 mx-auto pb-5">
+				<form method="POST"> 
+					{% csrf_token %}
+					{{ form|crispy }}
+					<div class="d-grid">
+						{% comment %} <button type="submit" class="btn btn-whatsapp neo-bold my-3">{% trans 'ENTRAR' %}</button> {% endcomment %}
+						<button type="submit" class="btn btn-whatsapp fw-bold my-3" style="background-color:{{ whitelabel.primary_color }};color:{{ whitelabel.secondary_color }};">{% trans 'ENTRAR' %}</button>
+					</div>	
+					{% comment %}
+					<div class="text-center small">
+						<a class="d-block my-2 text-white" href="{% url 'password_reset' %}">{% trans 'Esqueci minha senha ou usuário' %}</a>
+						<a class="text-white" href="{% url 'register' %}">Ainda não tem conta? Cadastre-se aqui</a>
+					</div>
+					{% endcomment %}
+				</form>
+				<input type="hidden" name="next" value="{{ request.GET.next }}"/>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

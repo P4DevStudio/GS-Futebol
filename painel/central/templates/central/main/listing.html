@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}	
+{% load template_filters_extras %}
+
+{% block title %}{% if block_title %}{{ block_title }}{% else %}{% trans 'Dashboard' %}{% endif %}{% endblock %}
+
+{% block content %}
+<main>
+	<div class="container-fluid">
+		<div class="row">
+			{% include "central/includes/sidebar.html" %}
+			<div class="col-12 col-md-9">
+				{% if 'pages/' in request.path %}
+					{% include "central/includes_listing/pages.html" %}
+				{% elif 'xxxxxxxxx/' in request.path %}
+				{% endif %}
+				
+				{% include "central/includes/pagination.html" %}
+			</div> 
+		</div>
+	</div> <!-- container -->
+</main>
+{% endblock %}
+
+{% block js %}
+	{{ block.super }}
+
+	{% if 'strategies/' in request.path %}
+	<script type="text/javascript">
+		var EndpointDuplicateStrategy = "{% url 'ajax_duplicate_strategy' %}";
+	</script>
+	{% endif %}
+
+	{% if 'results/' in request.path %}
+	<script type="text/javascript">
+		var EndpointResetResultsStrategy = "{% url 'ajax_reset_results_strategy' %}";
+	</script>
+	{% endif %}
+
+	{% if 'gallery/' in request.path %}
+	<script type="text/javascript">
+		var EndpointUploadImage = "{% url 'ajax_upload_image' %}";
+	</script>
+	{% endif %}
+
+{% endblock %}

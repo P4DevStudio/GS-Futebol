@@ -1,0 +1,54 @@
+{% load static %}
+{% load i18n %}
+
+<div class="col-12 bg-light shadow-sm rounded-custom-top p-3 mt-3">
+    <h4 class="neo-bold mb-0">{% trans 'Páginas' %}</h4>
+</div>
+
+{% if lista %}
+<div class="col-12 bg-light shadow-sm rounded-custom-bottom p-3 mt-3 table-responsive show_dropdown">
+    <table class="table table-sm small table-hover" id="myTable2">
+        <thead>
+        <tr class="text-nowrap">
+            <th scope="col" role="button" onclick="sortTable(0, 0)"><i class="fas fa-ellipsis-v"></i></th>
+            <th scope="col" class="col-8" role="button" onclick="sortTable(1)">{% trans 'Título' %}</th>
+            <th scope="col">{% trans 'Opções' %}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in lista %}
+        <tr class="align-middle text-nowrap">
+            <td>{{ forloop.counter }}</td>
+            <td>{{ item.name|title }}</td>
+            <td class="text-center d-flex">
+                <a href="{% url 'LandingPageUpdateView' item.id|safe %}" class="btn btn-sm btn-whatsapp rounded-custom me-2">{% trans 'Editar' %}</a>
+                <div>
+                    <button class="btn btn-sm btn-cancel rounded-custom me-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        {% trans 'Opções' %} <i class="far fa-edit text-muted"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm bg-light" style="-webkit-transform: translate3d(0, 0, 0);transform: translate3d(0, 0, 0); position: absolute;z-index: 999999;">
+                        <li><a href="{% url 'LandingPageDetailView' item.landingpage_cod|safe %}" target="_blank" class="dropdown-item small">{% trans 'Visualizar' %}</a></li>
+                        <li><a href="{ url 'EstrategiaListView' %}?_q={{ item.id|safe }}" class="dropdown-item small">{% trans 'Ver blocos' %}</a></li>
+                        <li><a href="{% url 'LandingPageDeleteView' item.id|safe %}" class="dropdown-item small">{% trans 'Excluir' %}</a></li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+    <div class="col-12 bg-light shadow-sm rounded-custom-bottom p-3 mt-3 table-responsive">
+        <div class="text-center">
+            <h5 class="neo-bold">{% trans 'Adicione uma página' %}</h5>
+            <div>{% trans 'O primeiro passo é adicionar uma página com ajuda dos nossos vídeos tutoriais' %}</div>
+            <a href="{ url 'VideosTemplateView' %}" target="_blank" class="mt-2 btn btn-sm btn-whatsapp-rounded">{% trans 'Assistir tutoriais' %}</a>
+            <a href="{ url 'SalaCreateView' %}" class="mt-2 btn btn-sm btn-info rounded-custom">{% trans 'Adicionar página' %} <i class="small fas fa-plus-circle"></i></a>
+            <br>
+            <br>
+            <div>{% trans 'Caso tenha muita dificuldade peça ajuda ao suporte' %}</div>
+            <div><img src="{% static 'img/robo-sinais.png' %}" alt=""></div>
+        </div>
+    </div>	
+{% endif %}

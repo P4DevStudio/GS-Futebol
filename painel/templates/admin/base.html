@@ -1,0 +1,21 @@
+{% extends 'admin/base.html' %}
+
+{% block extrastyle %}{{ block.super }}
+<style>
+html[data-theme="light"], :root {
+  --primary: #adb0b5;
+  --header-bg: #adb0b5;
+  --breadcrumbs-bg: #adb0b5;
+  --button-bg: #6ac476;
+  --secondary: #000;
+  --link-fg: #555;
+  --link-selected-fg: #555;
+  --accent: #fff;
+  --header-color: #fff;
+  --selected-row: linear-gradient(to right, #78ed87, #fff);
+}
+#header {
+  background:#000!important;
+}
+</style>
+{% endblock %}

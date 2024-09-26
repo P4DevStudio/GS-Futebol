@@ -1,0 +1,41 @@
+:root {
+    --background-color: #333333;
+    --text-color: #ffffff;
+    --bg-results: #282828;
+
+    --black: #151414;
+    --yellow: #ffc107;
+    --white: #f7f7f7;
+    --green: #34ed91;
+    --orange: #ef7520;
+    --ligh-blue: #0dcaf0;
+    --verde-escuro: #25d366;
+    --verde-claro: #35f57d;
+    --cinza-claro: #ebebeb;
+    --red-cancel: #dc3545;
+}
+  
+.bg-light {
+    background-color: #444!important;
+}
+
+.text-muted {
+    color: #a5a5a5!important;
+}
+
+table {
+    color:var(--text-color)!important;
+    --bs-table-hover-color: var(--text-color)!important;
+    --bs-table-hover-bg: #0000003a!important;
+}
+
+.modal-content {
+    background-color: #444!important;
+}
+
+.dropdown-item {
+    color: var(--text-color)!important;
+}
+.dropdown-item:hover {
+    background-color: #0000003a!important;
+}

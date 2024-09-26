@@ -1,0 +1,58 @@
+/* Navbar ocupa a largura restante quando a sidebar está expandida */
+.navbar-header {
+    width: calc(100% - 240px) !important;  /* Largura da navbar quando sidebar está expandida */
+    top: 0 !important;
+    left: 240px !important;
+    position: fixed !important;
+    z-index: 1000 !important;
+    background-color: #343a40 !important;
+    padding: 10px 20px !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Navbar ocupa a largura total quando a sidebar está minimizada */
+.vertical-menu.minimized ~ .navbar-header {
+    width: calc(100% - 60px) !important;  /* Largura da navbar quando sidebar está minimizada */
+    left: 60px !important;
+}
+
+/* Estilos gerais da navbar */
+.navbar-header .d-flex {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+
+.header-item {
+    display: inline-flex !important;
+    align-items: center !important;
+    color: #fff !important;
+    margin-left: 20px !important;
+}
+
+.header-item i {
+    font-size: 24px !important;
+    color: #fff !important;
+    cursor: pointer !important;
+}
+
+/* Barra de pesquisa */
+.app-search {
+    margin-left: 20px !important;
+}
+
+.app-search .form-control {
+    background-color: #6c757d !important;
+    border: none !important;
+    color: white !important;
+    padding-left: 40px !important;
+    width: 250px !important;
+}
+
+.app-search .material-icons {
+    position: absolute !important;
+    left: 10px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    color: white !important;
+}

@@ -1,0 +1,1 @@
+$.sessionTimeout({keepAliveUrl:"../pages/starter/",logoutButton:"Logout",logoutUrl:"../account/logout/",redirUrl:"../pages/auth-lock-screen",warnAfter:3e3,redirAfter:3e4,keepAlive:!0,countdownMessage:"Redirecting in {timer} seconds."});

@@ -1,0 +1,37 @@
+{% load static %}
+{% load i18n %}	
+{% load template_filters_extras %}
+
+<div class="modal fade" id="changePlanModal" tabindex="-1" aria-labelledby="changePlanModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title neo-bold">{% trans 'Alterar plano' %}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form class="validating" id="formChangePlan">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="client-email" class="col-form-label">{% trans 'Email' %}*</label>
+                        <input type="email" class="form-control" id="client-email" autocomplete="off" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label for="plan-actual" class="col-form-label">{% trans 'Plano atual' %}*</label>
+                        <input type="number" class="form-control" id="plan-actual" autocomplete="off" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label for="new-plan" class="col-form-label">{% trans 'Novo plano' %}*</label>
+                        <input type="number" min="1" max="30" class="form-control" id="new-plan" autocomplete="off" required>
+                        <ul class="small">
+                            <li>{% trans 'Digite a quantidade total de salas do novo plano, apenas números.' %}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-cancel-rounded" data-bs-dismiss="modal">{% trans 'Cancelar' %}</button>
+                    <input type="submit" name="submit" value="{% trans 'Alterar' %}" class="btn btn-sm btn-whatsapp-rounded px-3 ms-3">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

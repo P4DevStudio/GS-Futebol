@@ -1,0 +1,50 @@
+
+
+==> Primeiros Passos <==
+
+-- Migrate e Coletar statics
+docker exec -it django-lands python manage.py migrate
+docker exec -it django-lands python manage.py collectstatic --noinput
+
+-- Criar um novo site na model Site
+docker exec -it django-lands python manage.py createsite localhost localhost
+docker exec -it django-lands python manage.py createsite aplicativos.pro aplicativos.pro
+
+-- Criar um novo super user associado a esse Site
+docker exec -it django-lands python manage.py createsupersiteuser greensinais@gmail.com greensinais@gmail.com 1 localhost true
+docker exec -it django-lands python manage.py createsupersiteuser EMAIL EMAIL SENHA aplicativos.pro true
+
+==> FIM <==
+
+NECESSÁRIO NO AMBIENTE DE DESENVOLVIMENTO, ABAIXO:
+
+-- Setup inicial
+docker exec -it django-lands python manage.py makemigrations
+docker exec -it django-lands python manage.py migrate 
+docker exec -it django-lands python manage.py collectstatic --noinput
+docker exec -it django-lands python manage.py createsite localhost localhost
+docker exec -it django-lands python manage.py createsupersiteuser greensinais@gmail.com greensinais@gmail.com 1 localhost true
+
+-- Arquivo HOST
+Acrescentar esses Hosts:
+127.0.0.1 site1.local
+127.0.0.1 site2.local
+127.0.0.1 site3.local
+
+-- Resetar DB do zero
+1 - Parar todos os serviços docker menos o serviço postgres.
+2 - Entrar no container do banco de dados com bash.
+3 - Entrar na linha de comando do banco de dados com "psql -U <nomedobanco> <usuariodobanco>"
+4 - Apagar o banco usar "dropdb" MUITO CUIDADO!
+5 - Criar banco novamente com "createdb + nomedobanco".
+docker exec -it postgres-lands bash
+psql -U postgres postgres
+dropdb
+createdb postgres
+
+
+FIM ------------------------------------------------------------------------
+
+# Recomendado Restartar container nginx após configuração do django e demais containers....
+
+

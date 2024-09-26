@@ -1,0 +1,113 @@
+/* Sidebar expandida */
+.vertical-menu {
+    width: 240px !important;  /* Largura normal quando expandida */
+    background-color: #343a40 !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    height: 100vh !important;
+    transition: all 0.3s ease !important;
+    overflow: hidden !important;
+    z-index: 999 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    padding: 0 !important;
+}
+
+/* Minimizar sidebar para mostrar apenas os ícones */
+.vertical-menu.minimized {
+    width: 60px !important;  /* Sidebar minimizada */
+    padding: 0 !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Alterna entre logo e ícone quando minimizada */
+#sidebar-logo {
+    width: 150px !important;
+    transition: all 0.3s ease !important;
+}
+
+#sidebar-favicon {
+    width: 40px !important;
+    transition: all 0.3s ease !important;
+    display: none !important;  /* Favicon escondido quando expandida */
+}
+
+/* Exibe o favicon e esconde a logo quando minimizada */
+.vertical-menu.minimized #sidebar-logo {
+    display: none !important;
+}
+
+.vertical-menu.minimized #sidebar-favicon {
+    display: block !important;
+    margin: 10px auto !important; /* Centraliza o favicon */
+}
+
+/* Sidebar header */
+.vertical-menu .sidebar-header {
+    color: white !important;
+    padding: 15px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+/* Estilo dos itens de menu */
+.vertical-menu ul {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.vertical-menu li {
+    width: 100% !important;
+    margin-bottom: 10px !important;
+}
+
+/* Links dos itens do menu */
+.vertical-menu li a {
+    display: flex !important;
+    align-items: center !important;
+    color: white !important;
+    padding: 15px 10px !important;
+    text-decoration: none !important;
+    transition: background-color 0.3s !important;
+    justify-content: flex-start !important;  /* Expandido: texto ao lado do ícone */
+}
+
+/* Ícones quando minimizado */
+.vertical-menu.minimized li a {
+    justify-content: center !important;  /* Ícones centralizados quando minimizado */
+    padding: 15px 0 !important;
+}
+
+/* Estilo dos ícones */
+.vertical-menu li a i {
+    font-size: 1.5rem !important;
+    text-align: center !important;
+}
+
+/* Esconde o texto das opções quando minimizada */
+.vertical-menu.minimized li a span {
+    display: none !important;
+}
+
+/* Efeito hover */
+.vertical-menu li a:hover {
+    background-color: #495057 !important;
+    border-radius: 8px !important;
+}
+
+/* Permite scroll quando conteúdo excede a altura */
+.vertical-menu .flex-grow-1 {
+    flex-grow: 1 !important;
+    overflow-y: auto !important;
+}
+
+/* Sidebar responsiva em telas menores */
+@media (max-width: 768px) {
+    .vertical-menu {
+        width: 60px !important;  /* Sidebar minimizada por padrão em telas pequenas */
+    }
+}

@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}	
+{% load crispy_forms_tags %}
+
+{% block title %}{% trans 'Dashboard - Editar' %}{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<div class="row mt-3">
+			{% include "central/includes/sidebar.html" %}
+			<div class="col-12 col-md-9">
+				<div class="col-12 bg-light shadow-sm rounded-custom-top p-3 mt-3">
+					<h4 class="neo-bold mb-0">{{ title }}</h4>
+				</div>
+				<div class="col-12 bg-light shadow-sm rounded-custom-bottom p-3 mt-3 mb-5">
+					<!-- <form class="validating" method="POST" data-game="{{ request.GET.t }}">
+						{ crispy form %}
+					</form> -->
+
+					<form method="post">
+						{% csrf_token %}
+						{{ form.as_p }}
+					
+						<div id="block-container">
+							<!-- Inicialmente, um botão pontilhado -->
+							<div class="add-block-btn" id="add-block-btn">
+								<div class="dashed-box">Adicionar Bloco +</div>
+							</div>
+						</div>
+					
+						<button type="submit" class="btn btn-primary">Salvar</button>
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div> <!-- Container -->
+
+
+	<!-- Sidebar para escolher templates de blocos -->
+	<div id="block-sidebar" class="bg-light">
+		<h3>Escolha um Template de Bloco</h3>
+		<div class="block-options">
+			<!-- Renderize blocos como opções -->
+			<div class="block-option" data-block-id="header_1">
+				{% include 'central/template_blocks/header_1.html' %}
+			</div>
+			<div class="block-option" data-block-id="introduction_1">
+				{% include 'central/template_blocks/introduction_1.html' %}
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Exemplo Modal Só fecha se clicar no botão e fica centralizado verticamente -->
+	<div class="modal fade" id="changeGameType" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-xl">
+		<div class="modal-content">
+			<div class="modal-header">
+			<h5 class="modal-title" id="staticBackdropLabel">{% trans 'Palavras Chaves' %}</h5>
+			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div class="col-12 bg-light shadow-sm rounded p-3 table-responsive">
+					<table class="table table-sm small table-hover">
+						<thead>
+						<tr class="text-nowrap">
+							<th scope="col" class="text-center">{% trans 'Copiar' %}</th>
+							<th scope="col">{% trans 'Palavra chave' %}</th>
+							<th scope="col">{% trans 'O que vai mostrar na mensagem' %}</th>
+							<th scope="col">{% trans 'Exemplo' %}</th>
+						</tr>
+						</thead>
+						<tbody>
+							{% if form.game_type == 'cards' %}
+								{% include "central/palavras_chaves/table_cards.html" %}
+							{% elif form.game_type == 'crash' %}
+								...
+							{% endif %}
+						</tbody>
+					</table>
+                </div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-sm btn-whatsapp-rounded" data-bs-dismiss="modal">{% trans 'Fechar' %}</button>
+			</div>
+		</div>
+		</div>
+	</div>
+
+	{% if form.game_type == 'cards' %}
+		{% include "central/presets/cards_presets.html" %}
+	{% elif form.game_type == 'crash' %}
+		...
+	{% endif %}
+
+{% include "central/includes/modal.html" %}
+
+{% endblock %}
+
+{% block js %}
+	{{ block.super }}
+	<!-- Mask Escobar -->
+	<script src="{% static 'js/jquery.mask.min.js' %}"></script>
+
+	<script>
+		document.querySelectorAll('.block-option').forEach(function(option) {
+			option.addEventListener('click', function() {
+				var blockContainer = document.getElementById('block-container');
+		
+				console.log('oiii')
+				// Clona o bloco selecionado da sidebar
+				var clonedBlock = this.cloneNode(true);
+				clonedBlock.classList.remove('block-option'); // Remove a classe block-option, se necessário
+				clonedBlock.classList.add('added-block'); // Adiciona uma nova classe para estilização, se necessário
+		
+				// Adiciona o bloco clonado ao container de blocos
+				blockContainer.appendChild(clonedBlock);
+		
+				// Reposiciona o botão de adicionar bloco abaixo do novo bloco
+				blockContainer.appendChild(document.getElementById('add-block-btn'));
+		
+				// Esconde a sidebar (opcional)
+				document.getElementById('block-sidebar').classList.remove('active');
+			});
+		});
+		</script>
+		
+	<script>
+		document.getElementById('add-block-btn').addEventListener('click', function() {
+			document.getElementById('block-sidebar').classList.add('active');
+		});
+		
+		// Fechar a sidebar ao clicar fora dela (opcional)
+		document.addEventListener('click', function(event) {
+			var sidebar = document.getElementById('block-sidebar');
+			if (!sidebar.contains(event.target) && !document.getElementById('add-block-btn').contains(event.target)) {
+				sidebar.classList.remove('active');
+			}
+		});
+	</script>
+	
+	<!-- Strategies -->
+	{% if '/add-strategy/' in request.path or '/edit-strategy/' in request.path %}
+	{% if form.game_type == 'roleta' %}
+		<script src="{% static 'js/roulletes.js' %}"></script>
+	{% elif form.game_type == 'mines' %}
+		<script src="{% static 'js/list_games_slots.js' %}"></script>
+	{% endif %}
+		<script src="{% static 'js/messages_strategies.js' %}"></script>
+		<script src="{% static 'js/presets.js' %}"></script>
+	{% endif %}
+
+	<!-- Groups -->
+	{% if '/edit-group/' in request.path or '/add-group/' in request.path %}
+		<script src="{% static 'js/validate_group.js' %}"></script>
+		<script src="{% static 'js/integration_type_hidden_fields.js' %}"></script>
+		<!-- Whatsapp -->
+		<script type="text/javascript">
+			var EndpointGroupsAccountWhatsapp = "{% url 'ajax_groups_account_whatsapp' %}";
+		</script>
+		<script src="{% static 'js/connect_instance_whatsapp.js' %}"></script>
+	{% endif %}
+	
+{% endblock %}

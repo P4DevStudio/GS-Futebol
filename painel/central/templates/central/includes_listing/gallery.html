@@ -1,0 +1,48 @@
+{% load static %}
+{% load i18n %}
+
+<div class="col-12 bg-light shadow-sm rounded-custom-top p-3 mt-3" id="salas">
+    <h4 class="neo-bold mb-0">{% trans 'Galeria' %}</h4>
+</div>
+
+<div class="col-12 bg-light shadow-sm rounded mt-3 p-3">
+    <div><b>{% trans 'Adicionar imagem' %}</b></div>
+    <div class="btn-group">
+        <button class="mt-2 btn btn-sm btn-info btn-choose-image">{% trans 'Escolher arquivo' %}</button>
+        <button class="mt-2 btn btn-sm btn-whatsapp rounded-custom-right btn-upload-image">{% trans 'Salvar' %} <i class="fas fa-cloud-upload-alt"></i></button>
+    </div>
+    <div class="font-mini mt-1">{% trans 'Tamanho máximo: 200Kb' %}</div>
+    <div class="font-mini">{% trans 'Formato recomendado: .jpeg' %}</div>
+    <div class="font-mini">{% trans 'Dimensão recomendada: 600x600' %}</div>
+</div>
+
+{% if lista %}
+
+<div class="row">
+
+    {% for item in lista %}
+    <div class="col-6 col-md-2 mt-3">
+        <div class="bg-light shadow-sm rounded p-1">
+            <div class="d-flex align-items-center position-relative">
+                <div class="col-12">
+                    <img class="img-fluid" src="{% if item.image.url %}{{ item.image.url }}{% endif %}" alt="">
+                    <small class="text-light px-1 gallery-photo-name">{{ item.name|truncatechars:20 }}</small>
+                </div>
+                <div class="gallery-controls position-absolute">
+                    <a href="{% url 'ImageDeleteView' item.id|safe %}" class="btn btn-sm btn-danger d-inline-flex align-items-center px-1"><i class="fas fa-trash"></i></a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+
+{% else %}
+    <div class="col-12 bg-light shadow-sm rounded-custom-bottom p-3 mt-3 table-responsive">
+        <div class="text-center">
+            <p>{% trans 'Nenhuma imagem encontrada...' %}</p>
+        </div>
+    </div>	
+{% endif %}

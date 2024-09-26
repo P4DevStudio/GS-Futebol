@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}	
+
+{% block title %}{% if block_title %}{{ block_title }}{% else %}{% trans 'Gerente' %}{% endif %}{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            {% include "managers/includes/sidebar.html" %}
+            <div class="col-12 col-md-9">
+                <div class="col-12 bg-light shadow-sm rounded-custom-top p-3 mt-3">
+                    <h4 class="neo-bold mb-0">{{ session_title }}</h4>
+                </div>
+                <div class="col-12 bg-light shadow-sm rounded-custom-bottom p-3 mt-3">
+                    <h5 class="neo-bold mb-0">{% trans 'Canal de avisos' %}</h5>
+                    <div class="d-flex ">
+                        <div class="col-9">
+                            <small>{% trans 'Precisamos te manter informado sobre atualizações e manutenções! Entre em nosso canal de avisos no telegram' %}</small>
+                            <div class="mt-2">
+                                <a href="https://t.me/+3vhynTRq-pYxNGI5" target="_blank" class="btn btn-sm btn-info rounded-custom d-inline-flex align-items-center">{% trans 'Entrar no canal' %} <i class="fab fa-telegram-plane my-0 ps-1"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-3 text-center">
+                            <img src="{% static 'img/telegram.png' %}" alt="money" width="95" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>	
+        </div>
+    </div> <!-- container -->
+{% endblock %}
+

@@ -1,0 +1,19 @@
+{% extends "admin/base.html" %}
+
+{% load static %}
+
+{% block title %}{{ title }} | {{ site_title|default:_('Green Sinais') }}{% endblock %}
+
+{% block extrahead %}
+    <link rel="icon" href="{% static 'img/favicon.png' %}" sizes="48x48" />
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+    <a class="" href="{% url 'admin:index' %}">
+        <img src="{% static 'img/logo_white.png' %}" height="20px" style="margin-top:5px;margin-bottom:5px;"/>
+    </a>
+</h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

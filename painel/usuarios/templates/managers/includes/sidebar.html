@@ -1,0 +1,44 @@
+{% load i18n %}
+{% load template_filters_extras %}
+<div class="col-12 col-md-3 mb-3">
+    
+    <div class="col-12 bg-light shadow-sm rounded-custom-top p-3 mt-3" id="expand_sidebar">
+        <div class="d-flex justify-content-between align-items-center"><h4 class="neo-bold mb-0">{% blocktrans %}Painel de Gerente{% endblocktrans %}</h4><i class="fas fa-bars d-md-none"></i></div>
+    </div>
+
+    <div class="d-none d-md-block" id="block_sidebar">
+    
+        <div class="col-12 bg-light shadow-sm rounded p-3 mt-3">
+            <div class="d-flex align-items-center">
+                <div class="col-10">
+                    <h5 class="neo-bold mb-0">{{ user.first_name|title }}</h5>
+                    <div class="small">
+                        <div><span>{% trans 'Gerente de Contas' %}</span></div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <h2 class="text-center"><i class="fas fa-user"></i></h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 bg-light shadow-sm rounded-custom-bottom p-3 mt-3">
+            <div class="d-flex align-items-center">
+                <div class="col-10">
+                    <h5 class="neo-bold mb-0">{% trans 'Clientes' %}</h5>
+                    <small class="neo-regular">{% trans 'Confira a lista de clientes' %}</small>
+                </div>
+                <div class="col-2">
+                    <h2 class="text-center"><i class="fas fa-users"></i></h2>
+                </div>
+            </div>
+            <div>
+                <a href="{% url 'ManagerUserListView' %}" class="mt-2 btn btn-sm btn-whatsapp-rounded">{% trans 'Ver clientes' %}</a><br>
+                {% if user|has_group:"SUPER_GERENTE" %}
+                <button type="button" class="mt-2 btn btn-sm btn-info rounded-custom" data-bs-toggle="modal" data-bs-target="#createUserModal">{% trans 'Adicionar cliente' %} <i class="small fas fa-plus-circle"></i></button>
+                {% endif %}
+            </div>
+        </div>
+
+    </div> <!-- control sidebar dsiplay block or none -->
+</div> <!-- end sidebar -->

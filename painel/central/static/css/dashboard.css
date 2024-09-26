@@ -1,0 +1,33 @@
+/* Centralização do conteúdo do dashboard */
+.main-content {
+    margin-left: 250px !important; /* Ajuste para evitar sobreposição da sidebar */
+    padding: 20px !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Quando a sidebar estiver minimizada */
+.vertical-menu.minimized + .main-content {
+    margin-left: 60px !important; /* Ajuste para a sidebar minimizada */
+}
+
+/* Estilos da tabela */
+.table-responsive {
+    margin-top: 30px !important;
+    padding: 20px !important;
+}
+
+.table thead {
+    background-color: #343a40 !important;
+    color: white !important;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 60px !important; /* Para dispositivos móveis, ajustar a margem para sidebar minimizada */
+    }
+}
