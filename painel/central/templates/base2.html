@@ -15,7 +15,7 @@
         <link href="{% static 'css/sidebar.css' %}" rel="stylesheet" />
         <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
         <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
-        <link href="{% static 'css/main.css' %}" rel="stylesheet">
+        <link href="{% static 'css/main.css' %}" rel="stylesheet">    
         {% block extra_css %}
         {% endblock extra_css %}
         <!-- Bootstrap Css -->
@@ -42,7 +42,7 @@
 		{% else %}
 			<link rel="stylesheet" href="{% static 'css/dark.css' %}"/>
 		{% endif %}
-
+		<link rel="stylesheet" href="{% static 'css/main.css' %}"/>
 
 		{% block custom_meta %}
 		{% endblock %}
@@ -63,7 +63,7 @@
             {% endblock header %}
 
             <!-- Sidebar -->
-            <nav id="sidebar" >
+            <nav id="sidebar" class="vertical-menu">
                 {% include 'central/includes/sidebar.html' %}
             </nav>
 
@@ -73,7 +73,7 @@
                 {% block content %}
                 <!-- Conteúdo do dashboard -->
                 {% endblock %}
-
+            
                  {% block rodape %}
                 <div class="container-fluid mt-5">
                 </div>
@@ -103,11 +103,11 @@
             <!-- Jquery -->
             <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
             <!-- Bootstrap javascript e popper juntos -->
-
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
             <!-- Translate -->
             {% include "central/includes/translate.html" %}
-
+            
             <!-- js -->
             <script src="{% static 'libs/jquery/dist/jquery.min.js' %}"></script>
             <script src="{% static 'libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>

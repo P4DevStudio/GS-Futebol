@@ -1,10 +1,14 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const sidebarToggle = document.getElementById('sidebarToggle'); // Botão de toggle na navbar
-    const sidebar = document.getElementById('sidebar'); // Sidebar principal
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebar = document.getElementById('sidebar');
+    const navbar = document.querySelector('.navbar-header');
+    const content = document.querySelector('.main-content');
+    const toggleButton = document.getElementById('navbar-menu-toggle');
 
-    if (sidebarToggle && sidebar) {
-        sidebarToggle.addEventListener('click', function() {
-            sidebar.classList.toggle('minimized'); // Adiciona ou remove a classe 'minimized'
+    if (toggleButton) {
+        toggleButton.addEventListener('click', function() {
+            sidebar.classList.toggle('minimized'); // Alterna a classe minimizada da sidebar
+            navbar.classList.toggle('sidebar-minimized'); // Ajusta a navbar
+            content.classList.toggle('sidebar-minimized'); // Ajusta o conteúdo
         });
     }
 });

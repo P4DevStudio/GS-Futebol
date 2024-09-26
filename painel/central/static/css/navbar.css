@@ -1,22 +1,26 @@
-/* Navbar ocupa a largura restante quando a sidebar está expandida */
+/* Navbar com sidebar expandida */
 .navbar-header {
-    width: calc(100% - 240px) !important;  /* Largura da navbar quando sidebar está expandida */
+    width: calc(100vw - 240px) !important; /* Calcula a largura da navbar com base no viewport e na sidebar expandida */
+    margin-left: 240px !important; /* Move a navbar para a direita da sidebar */
+    transition: all 0.6s ease !important; /* Transição suave ao minimizar/maximizar */
+    background-color: #343a40 !important; /* Mantém o background da navbar */
     top: 0 !important;
-    left: 240px !important;
+    left: 0 !important;
     position: fixed !important;
     z-index: 1000 !important;
-    background-color: #343a40 !important;
     padding: 10px 20px !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    overflow: hidden !important; /* Garante que o conteúdo da navbar não ultrapasse seus limites */
+}
+
+/* Navbar quando a sidebar está minimizada */
+.vertical-menu.minimized + .main-content .navbar-header {
+    width: calc(100vw - 60px) !important; /* Calcula a largura da navbar com base no viewport e na sidebar minimizada */
+    margin-left: 60px !important; /* Ajusta a margem para a sidebar minimizada */
     transition: all 0.3s ease !important;
 }
 
-/* Navbar ocupa a largura total quando a sidebar está minimizada */
-.vertical-menu.minimized ~ .navbar-header {
-    width: calc(100% - 60px) !important;  /* Largura da navbar quando sidebar está minimizada */
-    left: 60px !important;
-}
-
-/* Estilos gerais da navbar */
+/* Estilos dos itens na navbar */
 .navbar-header .d-flex {
     display: flex !important;
     justify-content: space-between !important;
@@ -36,7 +40,7 @@
     cursor: pointer !important;
 }
 
-/* Barra de pesquisa */
+/* Ajusta a barra de pesquisa */
 .app-search {
     margin-left: 20px !important;
 }
@@ -55,4 +59,56 @@
     top: 50% !important;
     transform: translateY(-50%) !important;
     color: white !important;
+}
+
+/* Dropdown de usuário */
+.user-dropdown .dropdown-menu {
+    background-color: #fff !important;
+    border: 1px solid #ddd !important;
+    padding: 10px 0 !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+    z-index: 2000 !important;
+}
+
+.user-dropdown .dropdown-menu a {
+    display: flex !important;
+    align-items: center !important;
+    padding: 10px 20px !important;
+    color: #000 !important;
+    text-decoration: none !important;
+}
+
+.user-dropdown .dropdown-menu a i {
+    margin-right: 10px !important;
+}
+
+.user-dropdown .dropdown-menu a:hover {
+    background-color: #f8f9fa !important;
+    color: #343a40 !important;
+}
+
+/* Dropdown notificação e linguagem */
+.noti-dot {
+    background: red !important;
+    border-radius: 50% !important;
+    width: 8px !important;
+    height: 8px !important;
+    position: absolute !important;
+    top: 8px !important;
+    right: 8px !important;
+}
+
+/* Navbar com sidebar minimizada */
+.navbar-header.sidebar-minimized {
+    width: calc(100vw - 60px) !important; /* Ajusta a largura quando a sidebar é minimizada */
+    margin-left: 60px !important; /* Ajusta a margem quando a sidebar é minimizada */
+    transition: all 0.3s ease !important;
+}
+
+/* Responsividade para dispositivos móveis */
+@media (max-width: 768px) {
+    .navbar-header {
+        width: 100vw !important; /* Ocupa 100% da largura em dispositivos móveis */
+        margin-left: 0 !important; /* Sem margem */
+    }
 }
