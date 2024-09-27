@@ -1,4 +1,4 @@
-/* Sidebar expandida */
+/* Sidebar expandida no desktop */
 .vertical-menu {
     width: 240px;
     background-color: #343a40;
@@ -7,22 +7,21 @@
     top: 0;
     left: 0;
     height: 100vh;
-    overflow: hidden;
     z-index: 999;
+    overflow: hidden;
 }
 
-/* Sidebar minimizada */
+/* Sidebar minimizada no desktop */
 .vertical-menu.minimized {
     width: 60px;
     transition: width 0.3s ease !important;
 }
 
-/* Logo expandida (SVG ou imagem normal) */
+/* Exibe a logo expandida quando a sidebar está expandida */
 .vertical-menu .logo-expanded {
     display: block !important;
-    width: 120px !important; /* Define o tamanho máximo da logo expandida */
-    height: auto !important; /* Preserva a proporção da logo */
-    margin: 20px auto !important; /* Centraliza a logo */
+    width: 120px !important;
+    margin: 20px auto !important;
 }
 
 /* Esconde a logo expandida quando a sidebar está minimizada */
@@ -30,78 +29,72 @@
     display: none !important;
 }
 
-/* Logo minimizada (SVG ou ícone) */
-.vertical-menu .logo-minimized {
-    display: none !important;
-    width: 40px !important; /* Define o tamanho máximo da logo minimizada */
-    height: auto !important; /* Preserva a proporção da logo */
-    margin: 10px auto !important; /* Centraliza a logo minimizada */
-}
-
-/* Mostra a logo minimizada quando a sidebar está minimizada */
+/* Exibe a logo minimizada quando a sidebar está minimizada */
 .vertical-menu.minimized .logo-minimized {
     display: block !important;
-}
-
-/* Estilo dos links da sidebar */
-.vertical-menu ul {
-    list-style: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
+    width: 40px !important;
+    margin: 10px auto !important;
 }
 
 /* Estilo dos links e ícones da sidebar */
 .vertical-menu ul li a {
     color: white !important;
-    padding: 15px !important;
+    padding: 15px;
     text-decoration: none !important;
-    display: flex !important;
-    align-items: center !important;
+    display: flex;
+    align-items: center;
 }
 
 /* Centraliza os ícones quando a sidebar está minimizada */
 .vertical-menu.minimized ul li a {
-    justify-content: center !important;
+    justify-content: center;
 }
 
-/* Esconde o texto das opções do menu quando a sidebar está minimizada */
+/* Esconde o texto dos links quando a sidebar está minimizada */
 .vertical-menu.minimized ul li a span {
-    display: none !important;
+    display: none;
 }
 
-@media (max-width: 576px) {
-    .vertical-menu {
-        display: none;
-    }
-    .navbar-header .toggle-sidebar {
-        display: block; /* Display a button to open the sidebar */
-    }
-}
-
-/* Sidebar oculta em telas menores */
+/* Sidebar oculta no mobile inicialmente */
 @media (max-width: 768px) {
     .vertical-menu {
-        transform: translateX(-100%); /* Oculta a sidebar fora da tela no mobile */
+        transform: translateX(-100%);
         transition: transform 0.3s ease;
+        position: fixed;
+        width: 240px;
     }
 
+    /* Sidebar aparece no mobile quando a classe active é aplicada */
     .vertical-menu.active {
-        transform: translateX(0); /* Exibe a sidebar quando o botão de menu é clicado */
+        transform: translateX(0);
+    }
+
+    /* No mobile, o conteúdo ocupa toda a largura */
+    .main-content {
+        margin-left: 0;
+        width: 100%;
     }
 }
 
-/* Adiciona um botão de menu na navbar para abrir/fechar a sidebar */
+/* Botão de menu para o mobile */
 .navbar-header .toggle-sidebar {
-    display: block;
+    display: none;
     background-color: transparent;
     border: none;
     font-size: 1.5rem;
     cursor: pointer;
 }
 
-/* Adiciona espaço para o conteúdo quando a sidebar está oculta */
+@media (max-width: 768px) {
+    .navbar-header .toggle-sidebar {
+        display: block; /* Exibe o botão de menu no mobile */
+    }
+}
+
+/* Ajuste do conteúdo */
 .main-content {
     margin-left: 240px;
+    transition: margin-left 0.3s ease;
 }
 
 .main-content.sidebar-minimized {
@@ -110,6 +103,7 @@
 
 @media (max-width: 768px) {
     .main-content {
-        margin-left: 0 !important; /* Remove o deslocamento do conteúdo no mobile */
+        margin-left: 0;
+        width: 100%;
     }
 }

@@ -1,28 +1,27 @@
-/* Ajuste do conteúdo com sidebar expandida */
+/* Ajuste do conteúdo com sidebar expandida no desktop */
 .main-content {
     margin-left: 240px;
     transition: all 0.6s ease;
     padding: 20px;
 }
 
-/* Ajuste do conteúdo com sidebar minimizada */
+/* Ajuste do conteúdo com sidebar minimizada no desktop */
 .main-content.sidebar-minimized {
-    margin-left: 60px ; /* Margem ajustada quando a sidebar é minimizada */
+    margin-left: 60px;
     transition: all 0.3s ease !important;
 }
 
-/* Ajuste do dashboard quando a sidebar estiver minimizada */
-.vertical-menu.minimized + .main-content {
-    margin-left: 60px !important; /* O dashboard se move para ocupar o espaço da sidebar minimizada */
-    width: calc(100% - 60px) !important;
-    transition: all 0.3s ease !important;
-}
+/* Ajuste do dashboard para dispositivos móveis */
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 0;
+        padding: 15px;
+        width: 100%;
+    }
 
-/* Ajuste do dashboard quando a sidebar estiver expandida */
-.vertical-menu + .main-content {
-    margin-left: 240px !important; /* O dashboard se move para ocupar o espaço quando a sidebar está expandida */
-    width: calc(100% - 240px) !important;
-    transition: all 0.3s ease !important;
+    .table-responsive {
+        overflow-x: auto; /* Garante que a tabela seja rolável em telas pequenas */
+    }
 }
 
 /* Estilos da tabela */
@@ -38,17 +37,4 @@
 
 .table-striped tbody tr:nth-of-type(odd) {
     background-color: rgba(0, 0, 0, 0.05) !important;
-}
-
-/* Ajuste do dashboard para dispositivos móveis */
-@media (max-width: 768px) {
-    .main-content {
-        margin-left: 0; /* Preenche toda a tela */
-        padding: 15px;
-        width: 100%;
-    }
-
-    .table-responsive {
-        overflow-x: auto; /* Garante que a tabela seja rolável em telas pequenas */
-    }
 }

@@ -2,14 +2,14 @@
 {% load i18n %}
 <!DOCTYPE html>
 <html lang="pt-br">
-	{% block head %}
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>{% block title %}Green Sinais{% endblock %}</title>
+    {% block head %}
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Green Sinais{% endblock %}</title>
 
-		<!-- Favicon -->
-		<link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}"/>
+        <!-- Favicon -->
+        <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}"/>
 
         {% block css %}
         <link href="{% static 'css/sidebar.css' %}" rel="stylesheet" />
@@ -25,48 +25,46 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
         {% endblock css %}
 
-		<!-- Bootstrap5 -->
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <!-- Bootstrap5 -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-		<!-- font google -->
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,700;0,900;1,200;1,300;1,900&display=swap" rel="stylesheet">
+        <!-- font google -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,700;0,900;1,200;1,300;1,900&display=swap" rel="stylesheet">
 
-		<!-- Font awesome -->
-		<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+        <!-- Font awesome -->
+        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 
-		<!-- style own -->
-		{% if not request.COOKIES.theme == 'dark' %}
-			<link rel="stylesheet" href="{% static 'css/light.css' %}"/>
-		{% else %}
-			<link rel="stylesheet" href="{% static 'css/dark.css' %}"/>
-		{% endif %}
+        <!-- style own -->
+        {% if not request.COOKIES.theme == 'dark' %}
+            <link rel="stylesheet" href="{% static 'css/light.css' %}"/>
+        {% else %}
+            <link rel="stylesheet" href="{% static 'css/dark.css' %}"/>
+        {% endif %}
 
 
-		{% block custom_meta %}
-		{% endblock %}
+        {% block custom_meta %}
+        {% endblock %}
 
-	</head>
-	{% endblock %}
+    </head>
+    {% endblock %}
 
-	{% block custom_style %}
-	{% endblock %}
+    {% block custom_style %}
+    {% endblock %}
 
-	<body {% block body %}data-sidebar="dark"{% endblock body %}>
+    <body {% block body %}data-sidebar="dark"{% endblock body %}>
 
         <div id="layout-wrapper">
-
 
             {% block header %}
             {% include 'central/includes/navbar.html' %}
             {% endblock header %}
 
             <!-- Sidebar -->
-            <nav id="sidebar" >
+            <nav id="sidebar">
                 {% include 'central/includes/sidebar.html' %}
             </nav>
-
 
             <!-- Main content -->
             <div id="content" class="flex-grow-1">
@@ -81,9 +79,6 @@
                 {% endblock %}
             </div>
         </div>
-
-
-
 
         {% block javascript %}
 
@@ -121,7 +116,7 @@
             {% if messages %}
             <script>
                 window.addEventListener('load', (event) => {
-                    {% for message in messages %}
+                    {% for message in messages %} 
                     var closeAutomatic = true;
                     {% if message.tags == 'error' or message.tags == 'warning' or message.tags == 'info' %}
                         var closeAutomatic = false;
@@ -132,5 +127,5 @@
             </script>
             {% endif %}
         {% endblock %}
-	</body>
+    </body>
 </html>

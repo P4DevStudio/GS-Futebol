@@ -3,55 +3,53 @@
 <div class="vertical-menu">
     <div class="h-100 d-flex flex-column">
         <!-- Sidebar Header (Minimizable) -->
-        <div class="sidebar-header text-white p-3 d-flex justify-content-between align-items-center" style="margin-right: 5px" >
-            <!-- Substituímos o título e botão pelo logo e favicon -->
+        <div class="sidebar-header text-white p-3 d-flex justify-content-between align-items-center" style="margin-right: 5px">
             <img id="sidebar-logo" src="{% static 'img/logo.svg' %}" alt="Logo" class="logo-expanded" />
             <img id="sidebar-favicon" src="{% static 'img/favicon.png' %}" alt="Favicon" class="logo-minimized" style="display: none;" />
         </div>
-        
+
         <!-- Sidemenu -->
         <div id="sidebar-menu" class="flex-grow-1 overflow-auto">
-            <!-- Left Menu Start -->
             <ul class="list-unstyled" id="side-menu">
                 <li>
                     <a href="{% url 'dashboard' %}" class="waves-effect d-flex align-items-center">
-                        <i class="material-icons">home</i> <!-- Ícone da página inicial -->
+                        <i class="material-icons">home</i>
                         <span>Página Inicial</span>
                     </a>
                 </li>
                 <li>
                     <a href="#" class="waves-effect d-flex align-items-center">
-                        <i class="material-icons">star</i> <!-- Ícone dos recomendados -->
+                        <i class="material-icons">star</i>
                         <span>Recomendados</span>
                     </a>
                 </li>
                 <li>
                     <a href="#" class="waves-effect d-flex align-items-center">
-                        <i class="material-icons">favorite</i> <!-- Ícone dos favoritos -->
+                        <i class="material-icons">favorite</i>
                         <span>Favoritos</span>
                     </a>
                 </li>
                 <li>
                     <a href="#" class="waves-effect d-flex align-items-center">
-                        <i class="material-icons">sports_esports</i> <!-- Ícone da lista de jogos -->
+                        <i class="material-icons">sports_esports</i>
                         <span>Lista de Jogos</span>
                     </a>
                 </li>
                 <li>
                     <a href="#" class="waves-effect d-flex align-items-center">
-                        <i class="material-icons">emoji_events</i> <!-- Ícone da lista de ligas -->
+                        <i class="material-icons">emoji_events</i>
                         <span>Lista de Ligas</span>
                     </a>
                 </li>
                 <li>
                     <a href="#" class="waves-effect d-flex align-items-center">
-                        <i class="material-icons">shield</i> <!-- Ícone da lista de times -->
+                        <i class="material-icons">shield</i>
                         <span>Lista de Times</span>
                     </a>
                 </li>
                 <li>
                     <a href="#" class="waves-effect d-flex align-items-center">
-                        <i class="material-icons">settings</i> <!-- Ícone de configurações -->
+                        <i class="material-icons">settings</i>
                         <span>Configurações</span>
                     </a>
                 </li>
