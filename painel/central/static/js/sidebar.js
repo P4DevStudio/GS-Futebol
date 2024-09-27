@@ -11,9 +11,11 @@ document.addEventListener('DOMContentLoaded', function() {
             navbar.classList.toggle('sidebar-minimized');
             content.classList.toggle('sidebar-minimized');
 
-            // No mobile, a sidebar aparecerá sobre o conteúdo ao clicar
+            // No mobile, a sidebar empurra a navbar e o conteúdo
             if (window.innerWidth <= 768) {
                 sidebar.classList.toggle('active'); // Aplica classe 'active' para mostrar no mobile
+                navbar.classList.toggle('sidebar-minimized');
+                content.classList.toggle('sidebar-minimized');
             }
         });
     }
