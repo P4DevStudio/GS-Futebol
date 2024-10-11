@@ -120,7 +120,22 @@
     }
 }
 
+<<<<<<< Updated upstream
 /* Sidebar oculta em telas menores */
+=======
+.main-content.sidebar-minimized {
+    margin-left: 80px;
+}
+
+.logo-minimized-mobile {
+    display: none;
+    width: 15px !important;
+    height: 15px !important;
+    margin-left: 10px;
+}
+
+/* Mobile Adjustments */
+>>>>>>> Stashed changes
 @media (max-width: 768px) {
     .vertical-menu {
         transform: translateX(-100%); /* Oculta a sidebar fora da tela no mobile */
@@ -128,7 +143,23 @@
     }
 
     .vertical-menu.active {
+<<<<<<< Updated upstream
         transform: translateX(0); /* Exibe a sidebar quando o botão de menu é clicado */
+=======
+        transform: translateX(0);
+    }
+
+    .logo-minimized-mobile {
+        display: inline-block;  /* Mostra o favicon no mobile */
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .navbar-header {
+        width: 100vw;
+>>>>>>> Stashed changes
     }
 }
 
