@@ -8,20 +8,15 @@ document.addEventListener('DOMContentLoaded', function () {
     function adjustLayout() {
         if (window.innerWidth > 768) {  // Desktop
             if (sidebar.classList.contains('minimized')) {
-                navbar.style.width = 'calc(100vw - 60px)';
-                content.style.marginLeft = '60px';
+                navbar.classList.add('sidebar-minimized');
+                content.classList.add('sidebar-minimized');
             } else {
-                navbar.style.width = 'calc(100vw - 250px)';
-                content.style.marginLeft = '250px';
+                navbar.classList.remove('sidebar-minimized');
+                content.classList.remove('sidebar-minimized');
             }
         } else {  // Mobile
-            if (sidebar.classList.contains('active')) {
-                navbar.style.width = 'calc(100vw - 250px)';
-                content.style.marginLeft = '250px';
-            } else {
-                navbar.style.width = '100vw';
-                content.style.marginLeft = '0';
-            }
+            navbar.style.width = '100vw';
+            content.style.marginLeft = '0';
         }
     }
 
@@ -29,11 +24,10 @@ document.addEventListener('DOMContentLoaded', function () {
     toggleButton.addEventListener('click', function () {
         if (window.innerWidth > 768) {  // Desktop
             sidebar.classList.toggle('minimized');
-            content.classList.toggle('sidebar-minimized');
+            adjustLayout();  // Ajusta o layout após a alteração
         } else {  // Mobile
             sidebar.classList.toggle('active');
         }
-        adjustLayout();  // Ajusta o layout após a alteração
     });
 
     // Ajusta o layout ao redimensionar a janela

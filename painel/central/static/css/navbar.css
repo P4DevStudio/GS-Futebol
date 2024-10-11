@@ -5,7 +5,7 @@
     align-items: center;
     height: 70px;
     padding: 0 20px;
-    background-color: var(--bs-gray-200); /* Ajuste conforme necessário */
+    background-color: var(--bs-gray-200);
     position: fixed;
     top: 0;
     left: 0;
@@ -14,16 +14,16 @@
     transition: all 0.3s ease;
 }
 
-.navbar-header .logo img {
-    max-height: 24px;
+/* Ajuste da navbar quando a sidebar está minimizada */
+.navbar-header.sidebar-minimized {
+    width: calc(100vw - 80px);
+    transition: all 0.3s ease;
 }
 
-.header-item {
-    color: var(--bs-body-color);
-    font-size: 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
+/* Navbar normal quando a sidebar está expandida */
+.navbar-header {
+    width: calc(100vw - 250px);  /* A navbar ocupará o restante do espaço */
+    transition: all 0.3s ease;
 }
 
 /* Sidebar Style */
