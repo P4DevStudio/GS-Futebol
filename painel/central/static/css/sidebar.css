@@ -1,109 +1,95 @@
-/* Sidebar expandida no desktop */
-.vertical-menu {
-    width: 240px;
-    background-color: #343a40;
-    transition: all 0.3s ease;
+/* Navbar Style */
+.navbar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+    padding: 0 20px;
+    background-color: var(--bs-gray-200); /* Ajuste conforme necessário */
     position: fixed;
     top: 0;
     left: 0;
-    height: 100vh;
-    z-index: 999;
-    overflow: hidden;
+    right: 0;
+    z-index: 1000;
+    transition: all 0.3s ease;
 }
 
-/* Sidebar minimizada no desktop */
-.vertical-menu.minimized {
-    width: 30px;
-    transition: width 0.3s ease !important;
+.navbar-header .logo img {
+    max-height: 24px;
 }
 
-/* Exibe a logo expandida quando a sidebar está expandida */
-.vertical-menu .logo-expanded {
-    display: block !important;
-    width: 120px !important;
-    margin: 20px auto !important;
-}
-
-/* Esconde a logo expandida quando a sidebar está minimizada */
-.vertical-menu.minimized .logo-expanded {
-    display: none !important;
-}
-
-/* Exibe a logo minimizada quando a sidebar está minimizada */
-.vertical-menu.minimized .logo-minimized {
-    display: block !important;
-    width: 40px !important;
-    margin: 10px auto !important;
-}
-
-/* Estilo dos links e ícones da sidebar */
-.vertical-menu ul li a {
-    color: white !important;
-    padding: 15px;
-    text-decoration: none !important;
+.header-item {
+    color: var(--bs-body-color);
+    font-size: 20px;
+    cursor: pointer;
     display: flex;
     align-items: center;
 }
 
-/* Centraliza os ícones quando a sidebar está minimizada */
-.vertical-menu.minimized ul li a {
-    justify-content: center;
+/* Sidebar Style */
+.vertical-menu {
+    width: 250px;
+    background-color: var(--bs-gray-300);
+    position: fixed;
+    top: 70px;
+    bottom: 0;
+    left: 0;
+    z-index: 1001;
+    transition: all 0.3s ease;
+    overflow: auto;
 }
 
-/* Esconde o texto dos links quando a sidebar está minimizada */
+.vertical-menu.minimized {
+    width: 80px;
+}
+
+.vertical-menu ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.vertical-menu ul li a {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    color: var(--bs-body-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.vertical-menu ul li a i {
+    margin-right: 10px;
+}
+
 .vertical-menu.minimized ul li a span {
     display: none;
 }
 
-/* Sidebar oculta no mobile inicialmente */
+/* Content adjustments when sidebar is minimized */
+.main-content {
+    transition: all 0.3s ease;
+    margin-left: 250px;
+}
+
+.main-content.sidebar-minimized {
+    margin-left: 80px;
+}
+
+/* Mobile Adjustments */
 @media (max-width: 768px) {
     .vertical-menu {
         transform: translateX(-100%);
-        transition: transform 0.3s ease;
-        position: fixed;
-        width: 240px;
     }
 
-    /* Sidebar aparece no mobile quando a classe active é aplicada */
     .vertical-menu.active {
         transform: translateX(0);
     }
 
-    /* No mobile, o conteúdo ocupa toda a largura */
     .main-content {
         margin-left: 0;
-        width: 100%;
     }
-}
 
-/* Botão de menu para o mobile */
-.navbar-header .toggle-sidebar {
-    display: none;
-    background-color: transparent;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-}
-
-@media (max-width: 768px) {
-    .navbar-header .toggle-sidebar {
-        display: block; /* Exibe o botão de menu no mobile */
-    }
-}
-
-/* Ajuste do conteúdo */
-.main-content {
-    margin-left: 240px;
-    transition: margin-left 0.3s ease;
-}
-
-.main-content.sidebar-minimized {
-    margin-left: 60px;
-}
-
-@media (max-width: 768px) {
-    .main-content {
-        margin-left: 0;
-        width: 100%;
+    .navbar-header {
+        width: 100vw;
     }
 }

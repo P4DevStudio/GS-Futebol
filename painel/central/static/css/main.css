@@ -1,19 +1,19 @@
 body {
 	background-color: var(--background-color);
 	color: var(--text-color);
-	min-height: 90vh!important;
+	min-height: 90vh;
 	font-family: 'Nunito Sans';
 }
 
 @media (min-width: 768px) {
 	.container {
-		max-width: 95%!important;
+		max-width: 95% ;
 	}
 }
 
 @media (min-width: 2000px) {
 	.container {
-		max-width: 1900px!important;
+		max-width: 1900px ;
 	}
 }
 
@@ -41,7 +41,7 @@ button::-moz-focus-inner {
 }
 
 input, button, select, textarea, *:focus {
-	outline: none!important;
+	outline: none;
 }
 
 a, a:hover {
@@ -49,11 +49,11 @@ a, a:hover {
 }
 
 a.nav-link:hover {
-	color: #25d366!important;
+	color: #25d366;
 }
 
 a:focus, button:focus {
-	box-shadow: none!important;
+	box-shadow: none;
 }
 
 h1, h2, h3, h4, h5, h5, h6 {
@@ -65,30 +65,30 @@ h1, h2, h3, h4, h5, h5, h6 {
 }
 
 .dropdown-item:active {
-	background-color: var(--ligh-blue)!important;
+	background-color: var(--ligh-blue);
 }
 /*campo busca listing rifas*/
 .palavra_chave:focus {
-	box-shadow: none!important;
+	box-shadow: none;
 	border-color: rgb(37, 211, 102, 0.4);
 }
 
 nav.sticky-top {
-	z-index: 9999!important;
+	z-index: 9999;
 }
 
 .navbar-toggler:focus {
-    text-decoration: none!important;
-    outline: 0!important;
-    box-shadow: none!important;
+    text-decoration: none;
+    outline: 0;
+    box-shadow: none;
 }
 
 #navbarToggler a:hover, #navbarToggler span:hover, #navbarToggler div:hover{
-	color: var(--verde-escuro)!important;
+	color: var(--verde-escuro);
 }
 
 .font-mini {
-	font-size: 0.72rem!important;
+	font-size: 0.72rem;
 }
 
 /* Exemplo usando var*/
@@ -291,28 +291,28 @@ nav.sticky-top {
 } */
 
 th {
-	border: none!important;
-	background-color: var(--bg-results)!important;
+	border: none;
+	background-color: var(--bg-results);
 	color: var(--text-color);
 }
 
 th:first-child {
-	border-top-left-radius: 5px!important;
-	border-bottom-left-radius: 5px!important;
-	padding-left: 10px!important;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+	padding-left: 10px;
 }
 
 th:last-child {
-	border-top-right-radius: 5px!important;
-	border-bottom-right-radius: 5px!important;
-	padding-right: 10px!important;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+	padding-right: 10px;
 }
 
 td:first-child {
-	padding-left: 10px!important;
+	padding-left: 10px;
 }
 td:last-child {
-	padding-right: 10px!important;
+	padding-right: 10px;
 }
 
 
@@ -330,7 +330,7 @@ td:last-child {
 
 .bg-results {
 	background-color: var(--bg-results);
-	border-radius: 5px!important;
+	border-radius: 5px;
 }
 
 .badge-soft-success {
@@ -773,7 +773,7 @@ td:last-child {
 }
 
 #block-container .container {
-	max-width: 100%!important;
+	max-width: 100%;
 }
 
 .section-creating-page {
@@ -789,7 +789,7 @@ td:last-child {
 }
 
 #block-container .container {
-	z-index: 1!important;
+	z-index: 1;
 }
 
 /* Sidebar Direita */
@@ -939,7 +939,7 @@ td:last-child {
 }
 
 .block-controls * i {
-	font-size: 9px!important;
+	font-size: 9px;
 }
 
 .top-controls {
