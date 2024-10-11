@@ -1,5 +1,6 @@
 /* Navbar com sidebar expandida */
 .navbar-header {
+<<<<<<< Updated upstream
     width: calc(100vw - 240px) !important;
     margin-left: 240px !important;
     transition: all 0.6s ease !important;
@@ -32,6 +33,32 @@
     align-items: center !important;
     color: #fff !important;
     margin-left: 20px !important;
+=======
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+    padding: 0 20px;
+    background-color: var(--bs-gray-200);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+/* Ajuste da navbar quando a sidebar está minimizada */
+.navbar-header.sidebar-minimized {
+    width: calc(100vw - 80px);
+    transition: all 0.3s ease;
+}
+
+/* Navbar normal quando a sidebar está expandida */
+.navbar-header {
+    width: calc(100vw - 250px);  /* A navbar ocupará o restante do espaço */
+    transition: all 0.3s ease;
+>>>>>>> Stashed changes
 }
 
 .header-item i {

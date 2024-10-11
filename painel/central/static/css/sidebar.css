@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 /* Sidebar expandida */
 .vertical-menu {
     width: 240px;
@@ -9,6 +10,47 @@
     height: 100vh;
     overflow: hidden;
     z-index: 999;
+=======
+/* Navbar Style */
+.navbar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+    padding: 0 20px;
+    background-color: var(--bs-gray-200);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+/* Ajuste da navbar quando a sidebar está minimizada */
+.navbar-header.sidebar-minimized {
+    width: calc(100vw - 80px);
+    transition: all 0.3s ease;
+}
+
+/* Navbar normal quando a sidebar está expandida */
+.navbar-header {
+    width: calc(100vw - 250px);  /* A navbar ocupará o restante do espaço */
+    transition: all 0.3s ease;
+}
+
+/* Sidebar Style */
+.vertical-menu {
+    width: 250px;
+    background-color: var(--bs-gray-300);
+    position: fixed;
+    top: 70px;
+    bottom: 0;
+    left: 0;
+    z-index: 1001;
+    transition: all 0.3s ease;
+    overflow: auto;
+>>>>>>> Stashed changes
 }
 
 /* Sidebar minimizada */
