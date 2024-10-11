@@ -114,6 +114,7 @@
     color: #343a40 !important;
 }
 
+<<<<<<< Updated upstream
 /* Dropdown notificação e linguagem */
 .noti-dot {
     background: red !important;
@@ -134,6 +135,33 @@
 
 /* Ajustes para responsividade */
 @media (max-width: 768px) {
+=======
+.logo-minimized-mobile {
+    display: none;
+    width: 24px;
+    height: 24px;
+    margin-left: 10px; /* Espaço entre o botão e o favicon */
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+    .vertical-menu {
+        transform: translateX(-100%);
+    }
+
+    .vertical-menu.active {
+        transform: translateX(0);
+    }
+
+    .logo-minimized-mobile {
+        display: inline-block;  /* Mostra o favicon no mobile */
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+>>>>>>> Stashed changes
     .navbar-header {
         width: 100vw !important;
         margin-left: 0 !important;

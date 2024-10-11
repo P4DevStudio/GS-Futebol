@@ -1,10 +1,20 @@
 {% load static %}
 <header id="page-topbar">
-    <div class="navbar-header d-flex justify-content-between">
+    <div class="navbar-header d-flex justify-content-between align-items-center">
         <!-- Botão de Minimizar Sidebar -->
+<<<<<<< Updated upstream
         <button id="navbar-menu-toggle" class="btn header-item">
             <i class="material-icons">menu</i>
         </button>
+=======
+        <div class="d-flex align-items-center">
+            <img id="mobile-favicon" src="{% static 'img/favicon.png' %}" alt="Favicon" class="logo-minimized-mobile" style="display: none;" />
+            <button id="vertical-menu-btn" class="btn header-item">
+                <i class="material-icons">menu</i>
+            </button>
+            <img id="mobile-favicon" src="{% static 'img/favicon.png' %}" alt="Favicon" class="logo-minimized-mobile" style="display: none;" />
+        </div>
+>>>>>>> Stashed changes
 
         <!-- App Search-->
         <form class="app-search d-none d-lg-block">
@@ -16,6 +26,7 @@
 
         <!-- Ícones de interação -->
         <div class="d-flex align-items-center">
+<<<<<<< Updated upstream
             <!-- Language Dropdown -->
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn header-item waves-effect" data-bs-toggle="dropdown">
@@ -32,6 +43,9 @@
             </div>
 
             <!-- App Grid -->
+=======
+            <!-- Outros ícones e menus dropdown mantidos -->
+>>>>>>> Stashed changes
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn header-item waves-effect">
                     <i class="material-icons">apps</i>

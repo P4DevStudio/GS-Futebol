@@ -3,10 +3,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const sidebar = document.querySelector('.vertical-menu');  // Sidebar
     const navbar = document.querySelector('.navbar-header');  // Navbar
     const content = document.querySelector('.main-content');  // Conteúdo principal
+    const mobileFavicon = document.getElementById('mobile-favicon');  // Favicon no mobile
 
     // Função que ajusta o layout com base no estado da sidebar e na largura da tela
     function adjustLayout() {
         if (window.innerWidth > 768) {  // Desktop
+            mobileFavicon.style.display = 'none';  // Esconde o favicon no desktop
             if (sidebar.classList.contains('minimized')) {
                 navbar.classList.add('sidebar-minimized');
                 content.classList.add('sidebar-minimized');
@@ -15,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 content.classList.remove('sidebar-minimized');
             }
         } else {  // Mobile
+            mobileFavicon.style.display = 'inline-block';  // Mostra o favicon no mobile
             navbar.style.width = '100vw';
             content.style.marginLeft = '0';
         }
