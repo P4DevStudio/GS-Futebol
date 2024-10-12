@@ -10,15 +10,18 @@ document.addEventListener('DOMContentLoaded', function () {
         if (window.innerWidth > 768) {  // Desktop
             mobileFavicon.style.display = 'none';  // Esconde o favicon no desktop
             if (sidebar.classList.contains('minimized')) {
-                navbar.classList.add('sidebar-minimized');
-                content.classList.add('sidebar-minimized');
+                navbar.style.width = 'calc(100vw - 80px)';  // Ajusta a navbar para o lado esquerdo
+                navbar.style.marginLeft = '80px';  // Margem para o lado esquerdo (minimizada)
+                content.style.marginLeft = '80px';  // Ajusta o conteúdo também
             } else {
-                navbar.classList.remove('sidebar-minimized');
-                content.classList.remove('sidebar-minimized');
+                navbar.style.width = 'calc(100vw - 250px)';  // Ajusta a navbar para o lado esquerdo com sidebar expandida
+                navbar.style.marginLeft = '250px';  // Margem para o lado esquerdo (expandida)
+                content.style.marginLeft = '250px';  // Ajusta o conteúdo também
             }
         } else {  // Mobile
             mobileFavicon.style.display = 'inline-block';  // Mostra o favicon no mobile
             navbar.style.width = '100vw';
+            navbar.style.marginLeft = '0';  // Sem margem no mobile
             content.style.marginLeft = '0';
         }
     }

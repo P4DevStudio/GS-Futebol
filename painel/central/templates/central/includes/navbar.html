@@ -1,9 +1,10 @@
 {% load static %}
 <header id="page-topbar">
     <div class="navbar-header d-flex justify-content-between align-items-center">
+        <!-- Favicon para exibição no mobile -->
+        <img id="mobile-favicon" src="{% static 'img/favicon.png' %}" alt="Favicon" class="logo-minimized-mobile" style="display: none;" />
         <!-- Botão de Minimizar Sidebar -->
         <div class="d-flex align-items-center">
-            <img id="mobile-favicon" src="{% static 'img/favicon.png' %}" alt="Favicon" class="logo-minimized-mobile" " />
             <button id="vertical-menu-btn" class="btn header-item">
                 <i class="material-icons">menu</i>
             </button>
@@ -39,3 +40,5 @@
         </div>
     </div>
 </header>
+
+
