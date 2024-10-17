@@ -1,21 +1,30 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load i18n %}
 
 {% block title %}Tabela da Liga Brasileira{% endblock %}
 
-{% block custom_meta %}
-    {{ block.super }}
-{% endblock %}
-
 {% block content %}
-<div class="main-content">
+<div class="main-content" style="margin-top: 10%">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <h4 class="text-center mt-4">Tabela da Liga Brasileira</h4>
+                <h4 class="text-center mt-4">Selecione uma Liga</h4>
             </div>
         </div>
+
+        <!-- Botões para selecionar a liga -->
+        <div class="row justify-content-center mt-4">
+            {% for league in league_data %}
+                <div class="col-4 col-md-2 text-center">
+                    <button class="btn btn-light league-btn" data-season-id="{{ league.season_2024_id }}">
+                        <img src="{{ league.image }}" alt="{{ league.name }}" class="img-fluid">
+                        <p>{{ league.name }}</p>
+                    </button>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Tabela para exibir as informações da liga -->
         <div class="row justify-content-center mt-4">
             <div class="col-12 col-md-10 col-lg-8">
                 <div class="table-responsive">
@@ -25,20 +34,30 @@
                                 <th>Posição</th>
                                 <th>Time</th>
                                 <th>Pontos</th>
+                                <th>Vitórias</th>
+                                <th>Empates</th>
+                                <th>Derrotas</th>
+                                <th>Gols Marcados</th>
+                                <th>Gols Sofridos</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            {% if league_data %}
-                                {% for team in league_data %}
-                                    <tr>
-                                        <td>{{ forloop.counter }}</td> <!-- Contador para a posição -->
-                                        <td>{{ team.name }}</td>
-                                        <td>{{ team.points }}</td>
-                                    </tr>
+                        <tbody id="league-table-body">
+                            {% if league_table %}
+                                {% for team in league_table %}
+                                <tr>
+                                    <td>{{ team.position }}</td>
+                                    <td>{{ team.name }}</td>
+                                    <td>{{ team.points }}</td>
+                                    <td>{{ team.seasonWins_overall }}</td>
+                                    <td>{{ team.seasonDraws_overall }}</td>
+                                    <td>{{ team.seasonLosses_overall }}</td>
+                                    <td>{{ team.seasonGoals }}</td>
+                                    <td>{{ team.seasonConceded }}</td>
+                                </tr>
                                 {% endfor %}
                             {% else %}
                                 <tr>
-                                    <td colspan="3" class="text-center">Nenhum dado disponível</td>
+                                    <td colspan="8" class="text-center">Selecione uma liga para visualizar a tabela</td>
                                 </tr>
                             {% endif %}
                         </tbody>

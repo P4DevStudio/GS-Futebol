@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Tabela da Liga{% endblock %}
+
+{% block content %}
+<div class="main-content" style="margin-top: 10%">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <h4 class="text-center mt-4">Tabela da Liga - Temporada 2024</h4>
+            </div>
+        </div>
+
+        <!-- Verificação de erro -->
+        {% if error %}
+            <div class="alert alert-danger text-center">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        <!-- Verificação se a tabela existe -->
+        {% if league_table %}
+        <div class="row justify-content-center mt-4">
+            <div class="col-12 col-md-10 col-lg-8">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Posição</th>
+                                <th>Time</th>
+                                <th>Pontos</th>
+                                <th>Vitórias</th>
+                                <th>Empates</th>
+                                <th>Derrotas</th>
+                                <th>Gols Marcados</th>
+                                <th>Gols Sofridos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for team in league_table %}
+                            <tr>
+                                <td>{{ team.position }}</td>
+                                <td>{{ team.name }}</td>
+                                <td>{{ team.points }}</td>
+                                <td>{{ team.seasonWins_overall }}</td>
+                                <td>{{ team.seasonDraws_overall }}</td>
+                                <td>{{ team.seasonLosses_overall }}</td>
+                                <td>{{ team.seasonGoals }}</td>
+                                <td>{{ team.seasonConceded }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% else %}
+            <div class="text-center">
+                <p>Nenhuma tabela disponível no momento.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
