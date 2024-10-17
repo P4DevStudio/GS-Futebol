@@ -16,7 +16,7 @@
         <div class="row justify-content-center mt-4">
             {% for league in league_data %}
                 <div class="col-4 col-md-2 text-center">
-                    <button class="btn btn-light league-btn" data-season-id="{{ league.season_2024_id }}">
+                    <button class="btn btn-light league-btn" data-season-id="{{ league.season_2024_id|safe }}">
                         <img src="{{ league.image }}" alt="{{ league.name }}" class="img-fluid">
                         <p>{{ league.name }}</p>
                     </button>
@@ -57,8 +57,9 @@
 <script>
     document.querySelectorAll('.league-btn').forEach(button => {
         button.addEventListener('click', function() {
-            const seasonId = this.getAttribute('data-season-id');
-            
+            let seasonId = this.getAttribute('data-season-id'); // Captura o valor
+            seasonId = parseInt(seasonId, 10).toString();  // Converte para inteiro e depois para string
+    
             // Faz a requisição AJAX para o servidor Django
             fetch("{% url 'dashboard' %}", {
                 method: 'POST',
@@ -67,19 +68,17 @@
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
                 body: new URLSearchParams({
-                    'season_id': seasonId
+                    'season_id': seasonId  // Garante que o ID seja uma string correta
                 })
             })
             .then(response => response.json())
             .then(data => {
                 const tableBody = document.getElementById('league-table-body');
                 tableBody.innerHTML = '';  // Limpa a tabela antes de preencher
-                
+    
                 if (data.error) {
-                    // Exibe mensagem de erro
                     tableBody.innerHTML = `<tr><td colspan="8" class="text-center">${data.error}</td></tr>`;
                 } else if (data.league_table.length > 0) {
-                    // Preenche a tabela com os dados retornados
                     data.league_table.forEach(team => {
                         const row = `
                             <tr>
@@ -106,6 +105,5 @@
             });
         });
     });
-
 </script>
 {% endblock %}

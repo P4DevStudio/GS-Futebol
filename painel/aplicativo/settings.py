@@ -230,7 +230,7 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['console', 'file'],
-            'level': 'DEBUG',  # Nível de log, pode ser INFO, WARNING, ERROR, etc.
+            'level': 'ERROR',  # Nível de log, pode ser INFO, WARNING, ERROR, etc.
         },
         'central': {  # Ajuste o nome do logger se necessário
             'handlers': ['console', 'file'],

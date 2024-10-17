@@ -49,6 +49,9 @@ class DashboardTemplateView(TemplateView):
         # Log do season_id capturado
         logger.debug(f"Season ID recebido: {season_id}")
 
+        if '.' in season_id:
+            season_id = season_id.replace('.', '')
+
         # Salva o season_id no array para acompanhamento
         if season_id not in season_ids_used:
             season_ids_used.append(season_id)
