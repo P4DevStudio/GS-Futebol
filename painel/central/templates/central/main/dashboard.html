@@ -42,24 +42,9 @@
                             </tr>
                         </thead>
                         <tbody id="league-table-body">
-                            {% if league_table %}
-                                {% for team in league_table %}
-                                <tr>
-                                    <td>{{ team.position }}</td>
-                                    <td>{{ team.name }}</td>
-                                    <td>{{ team.points }}</td>
-                                    <td>{{ team.seasonWins_overall }}</td>
-                                    <td>{{ team.seasonDraws_overall }}</td>
-                                    <td>{{ team.seasonLosses_overall }}</td>
-                                    <td>{{ team.seasonGoals }}</td>
-                                    <td>{{ team.seasonConceded }}</td>
-                                </tr>
-                                {% endfor %}
-                            {% else %}
-                                <tr>
-                                    <td colspan="8" class="text-center">Selecione uma liga para visualizar a tabela</td>
-                                </tr>
-                            {% endif %}
+                            <tr>
+                                <td colspan="8" class="text-center">Selecione uma liga para visualizar a tabela</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -67,4 +52,60 @@
         </div>
     </div>
 </div>
+
+<!-- Script para capturar os cliques e fazer requisição AJAX -->
+<script>
+    document.querySelectorAll('.league-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const seasonId = this.getAttribute('data-season-id');
+            
+            // Faz a requisição AJAX para o servidor Django
+            fetch("{% url 'dashboard' %}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams({
+                    'season_id': seasonId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.getElementById('league-table-body');
+                tableBody.innerHTML = '';  // Limpa a tabela antes de preencher
+                
+                if (data.error) {
+                    // Exibe mensagem de erro
+                    tableBody.innerHTML = `<tr><td colspan="8" class="text-center">${data.error}</td></tr>`;
+                } else if (data.league_table.length > 0) {
+                    // Preenche a tabela com os dados retornados
+                    data.league_table.forEach(team => {
+                        const row = `
+                            <tr>
+                                <td>${team.position}</td>
+                                <td>${team.name}</td>
+                                <td>${team.points}</td>
+                                <td>${team.seasonWins_overall}</td>
+                                <td>${team.seasonDraws_overall}</td>
+                                <td>${team.seasonLosses_overall}</td>
+                                <td>${team.seasonGoals}</td>
+                                <td>${team.seasonConceded}</td>
+                            </tr>
+                        `;
+                        tableBody.innerHTML += row;
+                    });
+                } else {
+                    tableBody.innerHTML = '<tr><td colspan="8" class="text-center">Nenhuma tabela disponível para esta liga</td></tr>';
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                const tableBody = document.getElementById('league-table-body');
+                tableBody.innerHTML = '<tr><td colspan="8" class="text-center">Erro ao carregar os dados.</td></tr>';
+            });
+        });
+    });
+
+</script>
 {% endblock %}

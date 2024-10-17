@@ -212,3 +212,29 @@ REDIS_CONN = redis.Redis(
  	username='default',
  	password=os.getenv('REDIS_PASSWORD'),
 )
+
+#Loggs
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': 'debug.log',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',  # Nível de log, pode ser INFO, WARNING, ERROR, etc.
+        },
+        'central': {  # Ajuste o nome do logger se necessário
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+        },
+    },
+}

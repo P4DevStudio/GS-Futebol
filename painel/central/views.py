@@ -1,6 +1,15 @@
+import logging
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView
 import requests
+
+# Configurando o logger
+logger = logging.getLogger(__name__)
+
+# Array para armazenar os season_id usados
+season_ids_used = []
+
 
 class DashboardTemplateView(TemplateView):
     template_name = 'central/main/dashboard.html'
@@ -14,7 +23,6 @@ class DashboardTemplateView(TemplateView):
 
         if league_response.status_code == 200:
             league_data = league_response.json().get('data', [])
-            # Filtrar as ligas que possuem uma temporada em 2024
             filtered_leagues = []
             for league in league_data:
                 if 'season' in league:
@@ -26,22 +34,51 @@ class DashboardTemplateView(TemplateView):
                                 'season_2024_id': season['id']
                             }
                             filtered_leagues.append(league_with_season_2024)
-                            break  # Para o loop após encontrar a temporada de 2024
+                            break
         else:
             filtered_leagues = []
 
-        # Adiciona as ligas ao contexto
         context['league_data'] = filtered_leagues
+        context['league_table'] = []  # Tabela inicial vazia
+        return context
 
-        # Se for necessário, buscar a tabela da liga 2024 (por exemplo, temporada "11321")
-        season_id = 11321  # Exemplo fixo, ou você pode pegar de alguma lógica dinâmica
+    def post(self, request, *args, **kwargs):
+        # Captura o season_id enviado via AJAX
+        season_id = request.POST.get('season_id')
+
+        # Log do season_id capturado
+        logger.debug(f"Season ID recebido: {season_id}")
+
+        # Salva o season_id no array para acompanhamento
+        if season_id not in season_ids_used:
+            season_ids_used.append(season_id)
+
+        # URL da tabela da liga
         table_url = f'https://api.football-data-api.com/league-tables?key=db01a476916110021e97e90f1ecdb8f9c5574ded43012b2f24304e34ba394bbe&season_id={season_id}'
+
+        # Log da URL gerada
+        logger.debug(f"URL gerada: {table_url}")
+
+        # Fazendo a requisição à API
         table_response = requests.get(table_url)
 
-        if table_response.status_code == 200:
-            league_table = table_response.json().get('data', {}).get('league_table', [])
-            context['league_table'] = league_table
-        else:
-            context['league_table'] = []
+        # Log da resposta da API
+        logger.debug(f"Status da API: {table_response.status_code}")
+        logger.debug(f"Resposta da API (texto): {table_response.text}")
 
-        return context
+        # Verificar se a resposta é válida e contém dados JSON
+        if table_response.status_code == 200:
+            try:
+                league_table = table_response.json().get('data', {}).get('league_table', [])
+                logger.debug(f"Dados da tabela recebidos: {league_table}")
+            except ValueError:
+                # Erro ao tentar decodificar JSON, resposta não é um JSON válido
+                logger.error(f"Erro ao decodificar JSON para season_id {season_id}")
+                return JsonResponse({'error': 'Resposta inválida da API.'})
+        else:
+            # Se a requisição falhou
+            logger.error(f"Falha na requisição da API para season_id {season_id}")
+            return JsonResponse({'error': 'Falha ao obter dados da API.'})
+
+        # Retorna os dados da tabela no formato JSON
+        return JsonResponse({'league_table': league_table})
