@@ -23,42 +23,16 @@
                 </div>
             {% endfor %}
         </div>
-
-        <!-- Tabela para exibir as informações da liga -->
-        <div class="row justify-content-center mt-4">
-            <div class="col-12 col-md-10 col-lg-8">
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>Posição</th>
-                                <th>Time</th>
-                                <th>Pontos</th>
-                                <th>Vitórias</th>
-                                <th>Empates</th>
-                                <th>Derrotas</th>
-                                <th>Gols Marcados</th>
-                                <th>Gols Sofridos</th>
-                            </tr>
-                        </thead>
-                        <tbody id="league-table-body">
-                            <tr>
-                                <td colspan="8" class="text-center">Selecione uma liga para visualizar a tabela</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+        
+        <div id="league-table-container"></div>
     </div>
 </div>
-
-<!-- Script para capturar os cliques e fazer requisição AJAX -->
+    
 <script>
     document.querySelectorAll('.league-btn').forEach(button => {
         button.addEventListener('click', function() {
-            let seasonId = this.getAttribute('data-season-id'); // Captura o valor
-            seasonId = parseInt(seasonId, 10).toString();  // Converte para inteiro e depois para string
+            let seasonId = this.getAttribute('data-season-id');
+            seasonId = parseInt(seasonId, 10).toString();
     
             // Faz a requisição AJAX para o servidor Django
             fetch("{% url 'dashboard' %}", {
@@ -68,40 +42,97 @@
                     'Content-Type': 'application/x-www-form-urlencoded',
                 },
                 body: new URLSearchParams({
-                    'season_id': seasonId  // Garante que o ID seja uma string correta
+                    'season_id': seasonId
                 })
             })
             .then(response => response.json())
             .then(data => {
-                const tableBody = document.getElementById('league-table-body');
-                tableBody.innerHTML = '';  // Limpa a tabela antes de preencher
+                const container = document.getElementById('league-table-container'); // Container onde a tabela será inserida
+                container.innerHTML = ''; // Limpa o container antes de criar uma nova tabela
     
-                if (data.error) {
-                    tableBody.innerHTML = `<tr><td colspan="8" class="text-center">${data.error}</td></tr>`;
-                } else if (data.league_table.length > 0) {
+                // Verificação se os dados da tabela estão disponíveis e se a tabela existe
+                if (!data || !data.league_table) {
+                    container.innerHTML = '<p class="text-center">Erro ao carregar a tabela. Nenhuma informação disponível.</p>';
+                    return;
+                }
+    
+                // Criação da tabela
+                const table = document.createElement('table');
+                table.classList.add('table', 'table-striped');
+    
+                // Criar o cabeçalho da tabela (thead)
+                const thead = document.createElement('thead');
+                thead.classList.add('thead-dark');
+                const headerRow = document.createElement('tr');
+                
+                const headers = ['Posição', 'Time', 'Pontos', 'Vitórias', 'Empates', 'Derrotas', 'Gols Marcados', 'Gols Sofridos'];
+                headers.forEach(headerText => {
+                    const th = document.createElement('th');
+                    th.textContent = headerText;
+                    headerRow.appendChild(th);
+                });
+                thead.appendChild(headerRow);
+                table.appendChild(thead);
+    
+                // Criar o corpo da tabela (tbody)
+                const tbody = document.createElement('tbody');
+    
+                if (data.league_table.length > 0) {
+                    // Preenche a tabela com os dados retornados
                     data.league_table.forEach(team => {
-                        const row = `
-                            <tr>
-                                <td>${team.position}</td>
-                                <td>${team.name}</td>
-                                <td>${team.points}</td>
-                                <td>${team.seasonWins_overall}</td>
-                                <td>${team.seasonDraws_overall}</td>
-                                <td>${team.seasonLosses_overall}</td>
-                                <td>${team.seasonGoals}</td>
-                                <td>${team.seasonConceded}</td>
-                            </tr>
-                        `;
-                        tableBody.innerHTML += row;
+                        const row = document.createElement('tr');
+    
+                        // Adicionar as células da linha
+                        const positionCell = document.createElement('td');
+                        positionCell.textContent = team.position;
+                        row.appendChild(positionCell);
+    
+                        const nameCell = document.createElement('td');
+                        nameCell.textContent = team.name;
+                        row.appendChild(nameCell);
+    
+                        const pointsCell = document.createElement('td');
+                        pointsCell.textContent = team.points;
+                        row.appendChild(pointsCell);
+    
+                        const winsCell = document.createElement('td');
+                        winsCell.textContent = team.seasonWins_overall;
+                        row.appendChild(winsCell);
+    
+                        const drawsCell = document.createElement('td');
+                        drawsCell.textContent = team.seasonDraws_overall;
+                        row.appendChild(drawsCell);
+    
+                        const lossesCell = document.createElement('td');
+                        lossesCell.textContent = team.seasonLosses_overall;
+                        row.appendChild(lossesCell);
+    
+                        const goalsScoredCell = document.createElement('td');
+                        goalsScoredCell.textContent = team.seasonGoals;
+                        row.appendChild(goalsScoredCell);
+    
+                        const goalsConcededCell = document.createElement('td');
+                        goalsConcededCell.textContent = team.seasonConceded;
+                        row.appendChild(goalsConcededCell);
+    
+                        tbody.appendChild(row);
                     });
                 } else {
-                    tableBody.innerHTML = '<tr><td colspan="8" class="text-center">Nenhuma tabela disponível para esta liga</td></tr>';
+                    const noDataRow = document.createElement('tr');
+                    const noDataCell = document.createElement('td');
+                    noDataCell.setAttribute('colspan', '8');
+                    noDataCell.textContent = 'Nenhuma tabela disponível para esta liga';
+                    noDataRow.appendChild(noDataCell);
+                    tbody.appendChild(noDataRow);
                 }
+    
+                table.appendChild(tbody);
+                container.appendChild(table); // Insere a nova tabela no container
             })
             .catch(error => {
                 console.error('Erro:', error);
-                const tableBody = document.getElementById('league-table-body');
-                tableBody.innerHTML = '<tr><td colspan="8" class="text-center">Erro ao carregar os dados.</td></tr>';
+                const container = document.getElementById('league-table-container');
+                container.innerHTML = '<p class="text-center">Erro ao carregar os dados.</p>';
             });
         });
     });
