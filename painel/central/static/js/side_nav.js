@@ -1,44 +1,109 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const toggleButton = document.getElementById('vertical-menu-btn');  // Botão da navbar para alternar sidebar
-    const sidebar = document.querySelector('.vertical-menu');  // Sidebar
-    const navbar = document.querySelector('.navbar-header');  // Navbar
-    const content = document.querySelector('.main-content');  // Conteúdo principal
-    const mobileFavicon = document.getElementById('mobile-favicon');  // Favicon no mobile
+    const sidebarToggle = document.getElementById('navbar-menu-toggle');
+    const sidebar = document.querySelector('.vertical-menu');
+    const sidebarLogo = document.getElementById('sidebar-logo');
+    const sidebarFavicon = document.getElementById('sidebar-favicon');
+    const navbar = document.querySelector('.navbar-header');
 
-    // Função que ajusta o layout com base no estado da sidebar e na largura da tela
-    function adjustLayout() {
-        if (window.innerWidth > 768) {  // Desktop
-            mobileFavicon.style.display = 'none';  // Esconde o favicon no desktop
-            if (sidebar.classList.contains('minimized')) {
-                navbar.style.marginLeft = '80px';  // Sidebar minimizada
-                navbar.style.width = 'calc(100vw - 80px)';  // Ajusta a largura da navbar
-                content.style.marginLeft = '80px';  // Ajusta o conteúdo também
-            } else {
-                navbar.style.marginLeft = '250px';  // Sidebar expandida
-                navbar.style.width = 'calc(100vw - 250px)';  // Ajusta a largura da navbar
-                content.style.marginLeft = '250px';  // Ajusta o conteúdo
-            }
-        } else {  // Mobile
-            mobileFavicon.style.display = 'inline-block';  // Mostra o favicon no mobile
-            navbar.style.width = '100vw';
-            navbar.style.marginLeft = '0';  // Sem margem no mobile
-            content.style.marginLeft = '0';
-        }
-    }
+    sidebarToggle.addEventListener('click', function () {
+        sidebar.classList.toggle('minimized');
 
-    // Evento de clique no botão para alternar a sidebar
-    toggleButton.addEventListener('click', function () {
-        if (window.innerWidth > 768) {  // Desktop
-            sidebar.classList.toggle('minimized');
-            adjustLayout();  // Ajusta o layout após a alteração
-        } else {  // Mobile
-            sidebar.classList.toggle('active');
+        if (sidebar.classList.contains('minimized')) {
+            navbar.style.left = '60px';
+            navbar.style.width = 'calc(100% - 60px)';
+            sidebarLogo.style.display = 'none';
+            sidebarFavicon.style.display = 'block';
+        } else {
+            navbar.style.left = '250px';
+            navbar.style.width = 'calc(100% - 250px)';
+            sidebarLogo.style.display = 'block';
+            sidebarFavicon.style.display = 'none';
         }
     });
 
-    // Ajusta o layout ao redimensionar a janela
-    window.addEventListener('resize', adjustLayout);
+    const contentContainer = document.getElementById('main-content-container');
 
-    // Ajusta o layout ao carregar a página
-    adjustLayout();
+    // Função para evitar comportamento padrão de navegação
+    const preventNavigation = (event) => {
+        event.preventDefault();
+    };
+
+    // Funções para exibir a mensagem "Em Desenvolvimento"
+    const showUnderDevelopment = () => {
+        contentContainer.innerHTML = '<p class="text-center">Em Desenvolvimento</p>';
+    };
+
+    // Adicionar preventDefault e exibir mensagem "Em Desenvolvimento"
+    document.getElementById('home').addEventListener('click', function (event) {
+        preventNavigation(event);
+        showUnderDevelopment();
+    });
+    document.getElementById('recommended').addEventListener('click', function (event) {
+        preventNavigation(event);
+        showUnderDevelopment();
+    });
+    document.getElementById('favorites').addEventListener('click', function (event) {
+        preventNavigation(event);
+        showUnderDevelopment();
+    });
+    document.getElementById('games-list').addEventListener('click', function (event) {
+        preventNavigation(event);
+        showUnderDevelopment();
+    });
+
+    // Lista de Ligas
+    document.getElementById('leagues-list').addEventListener('click', function (event) {
+        preventNavigation(event);
+        // Aqui você pode adicionar a lógica para carregar as ligas e a tabela de ligas.
+        fetch('/path-to-fetch-leagues/')
+        .then(response => response.json())
+        .then(data => {
+            // Processar e exibir as ligas como está sendo feito atualmente.
+        })
+        .catch(error => {
+            console.error('Erro ao carregar ligas:', error);
+            contentContainer.innerHTML = '<p class="text-center">Erro ao carregar as ligas.</p>';
+        });
+    });
+
+    // Lista de Times
+    document.getElementById('teams-list').addEventListener('click', function (event) {
+        preventNavigation(event);
+        fetch('/path-to-fetch-leagues/')
+        .then(response => response.json())
+        .then(data => {
+            const leaguesHtml = data.map(league => `
+                <div class="col-4 col-md-2 text-center">
+                    <button class="btn btn-light league-btn" data-league-id="${league.id}">
+                        <img src="${league.image}" alt="${league.name}" class="img-fluid">
+                        <p>${league.name}</p>
+                    </button>
+                </div>
+            `).join('');
+            contentContainer.innerHTML = `<div class="row">${leaguesHtml}</div>`;
+
+            // Adicionar evento de clique para carregar os times da liga
+            document.querySelectorAll('.league-btn').forEach(button => {
+                button.addEventListener('click', function () {
+                    const leagueId = this.getAttribute('data-league-id');
+                    fetch(`/path-to-fetch-teams/?league_id=${leagueId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const teamsHtml = data.map(team => `
+                            <p>${team.name}</p>
+                        `).join('');
+                        contentContainer.innerHTML = `<div class="teams-list">${teamsHtml}</div>`;
+                    })
+                    .catch(error => {
+                        console.error('Erro ao carregar times:', error);
+                        contentContainer.innerHTML = '<p class="text-center">Erro ao carregar os times.</p>';
+                    });
+                });
+            });
+        })
+        .catch(error => {
+            console.error('Erro ao carregar ligas:', error);
+            contentContainer.innerHTML = '<p class="text-center">Erro ao carregar as ligas.</p>';
+        });
+    });
 });

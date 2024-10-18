@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Tabela da Liga Brasileira{% endblock %}
+{% block title %}Dashboard{% endblock %}
 
 {% block content %}
-<div class="main-content" style="margin-top: 10%">
+<div class="main-content" id="main-content-container" style="margin-top: 10%">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
@@ -24,16 +24,16 @@
             {% endfor %}
         </div>
         
-        <div id="league-table-container"></div>
+        <div id="league-table-container" class="mt-4"></div>
     </div>
 </div>
-    
+
 <script>
     document.querySelectorAll('.league-btn').forEach(button => {
         button.addEventListener('click', function() {
             let seasonId = this.getAttribute('data-season-id');
             seasonId = parseInt(seasonId, 10).toString();
-    
+
             // Faz a requisição AJAX para o servidor Django
             fetch("{% url 'dashboard' %}", {
                 method: 'POST',
@@ -49,18 +49,17 @@
             .then(data => {
                 const container = document.getElementById('league-table-container'); // Container onde a tabela será inserida
                 container.innerHTML = ''; // Limpa o container antes de criar uma nova tabela
-    
-                // Verificação se os dados da tabela estão disponíveis e se a tabela existe
+
                 if (!data || !data.league_table) {
                     container.innerHTML = '<p class="text-center">Erro ao carregar a tabela. Nenhuma informação disponível.</p>';
                     return;
                 }
-    
+
                 // Criação da tabela
                 const table = document.createElement('table');
                 table.classList.add('table', 'table-striped');
-    
-                // Criar o cabeçalho da tabela (thead)
+
+                // Criar o cabeçalho da tabela
                 const thead = document.createElement('thead');
                 thead.classList.add('thead-dark');
                 const headerRow = document.createElement('tr');
@@ -73,48 +72,47 @@
                 });
                 thead.appendChild(headerRow);
                 table.appendChild(thead);
-    
-                // Criar o corpo da tabela (tbody)
+
+                // Criar o corpo da tabela
                 const tbody = document.createElement('tbody');
-    
+
                 if (data.league_table.length > 0) {
-                    // Preenche a tabela com os dados retornados
                     data.league_table.forEach(team => {
                         const row = document.createElement('tr');
-    
+
                         // Adicionar as células da linha
                         const positionCell = document.createElement('td');
                         positionCell.textContent = team.position;
                         row.appendChild(positionCell);
-    
+
                         const nameCell = document.createElement('td');
                         nameCell.textContent = team.name;
                         row.appendChild(nameCell);
-    
+
                         const pointsCell = document.createElement('td');
                         pointsCell.textContent = team.points;
                         row.appendChild(pointsCell);
-    
+
                         const winsCell = document.createElement('td');
                         winsCell.textContent = team.seasonWins_overall;
                         row.appendChild(winsCell);
-    
+
                         const drawsCell = document.createElement('td');
                         drawsCell.textContent = team.seasonDraws_overall;
                         row.appendChild(drawsCell);
-    
+
                         const lossesCell = document.createElement('td');
                         lossesCell.textContent = team.seasonLosses_overall;
                         row.appendChild(lossesCell);
-    
+
                         const goalsScoredCell = document.createElement('td');
                         goalsScoredCell.textContent = team.seasonGoals;
                         row.appendChild(goalsScoredCell);
-    
+
                         const goalsConcededCell = document.createElement('td');
                         goalsConcededCell.textContent = team.seasonConceded;
                         row.appendChild(goalsConcededCell);
-    
+
                         tbody.appendChild(row);
                     });
                 } else {
@@ -125,9 +123,9 @@
                     noDataRow.appendChild(noDataCell);
                     tbody.appendChild(noDataRow);
                 }
-    
+
                 table.appendChild(tbody);
-                container.appendChild(table); // Insere a nova tabela no container
+                container.appendChild(table);
             })
             .catch(error => {
                 console.error('Erro:', error);
