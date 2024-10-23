@@ -63,29 +63,28 @@ class ListaTimesView(View):
 
         if response.status_code == 200:
             api_data = response.json().get('data', []) 
-            time_table = sorted(api_data, key=lambda x: x.get('table_position', 0))
-            logger.debug(time_table)
-            filtered_time_table = [
-        {
-            'season': team.get('season'),
-            'competition_id': team.get('competition_id'),
-            'suspended_matches': team.get('suspended_matches'),
-            'homeAttackAdvantage': team.get('homeAttackAdvantage'), 
-            'homeDefenceAdvantage': team.get('homeDefenceAdvantage'), 
-            'homeOverallAdvantage': team.get('homeOverallAdvantage'), 
-            'seasonGoals_overall': team.get('seasonGoals_overall'), 
-            'seasonConceded_overall': team.get('seasonConceded_overall'), 
-            'seasonGoalsTotal_overall': team.get('seasonGoalsTotal_overall'), 
-            'seasonGoalsTotal_home': team.get('seasonGoalsTotal_home'), 
-            'seasonGoalsTotal_away': team.get('seasonGoalsTotal_away'), 
-            'seasonScoredNum_overall': team.get('seasonScoredNum_overall'), 
-            'seasonScoredNum_home': team.get('seasonScoredNum_home'), 
-        }
-        for team in time_table
-    ]
+            filtered_time_table = []  # Initialize an empty list
+            for team in api_data:
+                stats = team.get('stats', {})
+                result = {
+                    'season': team.get('season'),
+                    'competition_id': team.get('competition_id'),
+                    'suspended_matches': team.get('suspended_matches'),
+                    'homeAttackAdvantage': stats.get('homeAttackAdvantage'), 
+                    'homeDefenceAdvantage': stats.get('homeDefenceAdvantage'), 
+                    'homeOverallAdvantage': stats.get('homeOverallAdvantage'), 
+                    'seasonGoals_overall': stats.get('seasonGoals_overall'), 
+                    'seasonConceded_overall': stats.get('seasonConceded_overall'), 
+                    'seasonGoalsTotal_overall': stats.get('seasonGoalsTotal_overall'), 
+                    'seasonGoalsTotal_home': stats.get('seasonGoalsTotal_home'), 
+                    'seasonGoalsTotal_away': stats.get('seasonGoalsTotal_away'), 
+                    'seasonScoredNum_overall': stats.get('seasonScoredNum_overall'), 
+                    'seasonScoredNum_home': stats.get('seasonScoredNum_home')
+                }
+                filtered_time_table.append(result) 
             cache.set(cache_key, filtered_time_table, cache_timeout)
         else:
-            time_table = None
+            filtered_time_table = None
         context = {
             'timeid': timeid,    
             'competitions': filtered_time_table 
