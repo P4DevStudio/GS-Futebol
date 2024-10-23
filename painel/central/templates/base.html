@@ -7,26 +7,13 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>{% block title %}Green Sinais{% endblock %}</title>
-
+        {% load bootstrap5 %}
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
 		<!-- Favicon -->
 		<link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}"/>
 
-        {% block css %}
-        <link href="{% static 'css/sidebar.css' %}" rel="stylesheet" />
-        <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
-        <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
-        <link href="{% static 'css/main.css' %}" rel="stylesheet">
-        {% block extra_css %}
-        {% endblock extra_css %}
-        <!-- Bootstrap Css -->
-        <link href="{% static 'css/bootstrap.min.css' %}" id="bootstrap-style" rel="stylesheet" type="text/css" />
-        <!-- Icons Css -->
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-        {% endblock css %}
 
-		<!-- Bootstrap5 -->
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
 		<!-- font google -->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,12 +23,6 @@
 		<!-- Font awesome -->
 		<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 
-		<!-- style own -->
-		{% if not request.COOKIES.theme == 'dark' %}
-			<link rel="stylesheet" href="{% static 'css/light.css' %}"/>
-		{% else %}
-			<link rel="stylesheet" href="{% static 'css/dark.css' %}"/>
-		{% endif %}
 
 
 		{% block custom_meta %}
@@ -81,55 +62,6 @@
                 {% endblock %}
             </div>
         </div>
-
-
-
-
-        {% block javascript %}
-
-        <!-- JAVASCRIPT -->
-        <script src="{% static 'libs/jquery/dist/jquery.min.js' %}"></script>
-        <script src="{% static 'libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
-        <script src="{% static 'libs/metismenu/dist/metisMenu.min.js' %}"></script>
-        <script src="{% static 'libs/simplebar/dist/simplebar.min.js' %}"></script>
-        <script src="{% static 'libs/node-waves/dist/waves.min.js' %}"></script>
-            
-
-        {% block extra_javascript %}
-        {% endblock extra_javascript %}
-
-        {% endblock javascript %}
-
-        {% block js %}
-            <!-- Jquery -->
-            <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-            <!-- Bootstrap javascript e popper juntos -->
-
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-            <!-- Translate -->
             {% include "central/includes/translate.html" %}
-
-            <!-- js -->
-            <script src="{% static 'libs/jquery/dist/jquery.min.js' %}"></script>
-            <script src="{% static 'libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
-
-            <!-- Master -->
-            <script src="{% static 'js/main.js' %}"></script>
-            <script src="{% static 'js/side_nav.js' %}"></script>
-            <!-- Toasts -->
-            {% if messages %}
-            <script>
-                window.addEventListener('load', (event) => {
-                    {% for message in messages %}
-                    var closeAutomatic = true;
-                    {% if message.tags == 'error' or message.tags == 'warning' or message.tags == 'info' %}
-                        var closeAutomatic = false;
-                    {% endif %}
-                        showToast("{{ message.tags }}", `{{ message|safe }}`, checkReload=false, closeAutomatic=closeAutomatic);
-                    {% endfor %}
-                });
-            </script>
-            {% endif %}
-        {% endblock %}
 	</body>
 </html>

@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'storages', # pip install django-storages & pip install boto3
     # Multi sites
     'django.contrib.sites',
+    'bootstrap5'
 ]
 
 # SITE_ID = 1 # Como estamos usando vários sites, essa várivel deve ficar comentada, caso contrário ela irá força tudo para o site id 1.
@@ -128,8 +129,9 @@ CACHES = {
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
             # Opcionalmente, você pode adicionar serializadores para melhorar a performance
-            # 'SERIALIZER': 'django_redis.serializers.json.JSONSerializer',
-        }
+            'SERIALIZER': 'django_redis.serializers.json.JSONSerializer',
+        },
+        'TIMEOUT': 60*15,  # Cache timeout (e.g., 15 minutes)
     }
 }
 

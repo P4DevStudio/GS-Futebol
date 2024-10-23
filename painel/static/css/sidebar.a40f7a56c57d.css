@@ -1,0 +1,148 @@
+/* Navbar Style */
+.navbar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+    padding: 0 20px;
+    background-color: #343a40; /* Cinza escuro */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    transition: all 0.6s ease;
+    margin-left: 250px;
+}
+
+/* Ajuste da navbar quando a sidebar está minimizada */
+.navbar-header.sidebar-minimized {
+    width: calc(100vw - 80px);
+    transition: all 0.6s ease;
+    margin-left: 80px;
+}
+
+/* Navbar normal quando a sidebar está expandida */
+.navbar-header {
+    width: calc(100vw - 250px);  /* A navbar ocupará o restante do espaço */
+    transition: all 0.6s ease;
+}
+
+.navbar-header .logo img {
+    max-height: 24px;
+}
+
+.header-item {
+    color: var(--bs-body-color);
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+/* Sidebar Style */
+.vertical-menu {
+    width: 250px;
+    background-color: #343a40; /* Cinza escuro */
+    position: fixed;
+    top: 70px;
+    bottom: 0;
+    left: 0;
+    z-index: 1001;
+    transition: all 0.6s ease;
+    overflow: auto;
+
+}
+
+.vertical-menu.minimized {
+    width: 80px;
+}
+
+.vertical-menu ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.vertical-menu ul li a {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    color: white;
+    text-decoration: none;
+    transition: all 0.6s ease;
+}
+
+.vertical-menu ul li a i {
+    margin-right: 10px;
+}
+
+.vertical-menu.minimized ul li a span {
+    display: none;
+}
+
+/* Logo da sidebar ajustada para caber corretamente */
+.logo-expanded {
+    max-width: 100%;
+    height: auto;
+}
+
+.logo-minimized {
+    display: none;
+    max-width: 40px; /* Ajuste conforme necessário */
+    height: auto;
+}
+
+/* Exibe a logo minimizada quando a sidebar está minimizada */
+.vertical-menu.minimized .logo-expanded {
+    display: none;
+}
+
+.vertical-menu.minimized .logo-minimized {
+    display: block;
+}
+
+/* Content adjustments when sidebar is minimized */
+.main-content {
+    transition: all 0.6s ease;
+    margin-left: 250px;
+}
+
+.main-content.sidebar-minimized {
+    margin-left: 80px;
+}
+
+.vertical-menu, .navbar-header {
+    top: 0;  /* Certifica que ambos estão alinhados no topo */
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+    .vertical-menu {
+        transform: translateX(-100%);
+    }
+
+    .vertical-menu.active {
+        transform: translateX(0);
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .navbar-header {
+        width: 100vw;
+    }
+
+    /* Favicon visibility in mobile */
+    .logo-minimized-mobile {
+        display: none;
+        width: 24px;
+        height: 24px;
+        margin-left: 10px;
+    }
+
+    /* Mostrar o favicon no mobile */
+    .logo-minimized-mobile {
+        display: inline-block;
+    }
+}

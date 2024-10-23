@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="main-content" id="main-content-container" style="margin-top: 10%">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <h4 class="text-center mt-4">Selecione uma Liga</h4>
+            </div>
+        </div>
+
+        <!-- Botões para selecionar a liga -->
+        <div class="row justify-content-center mt-4">
+            {% for league in league_data %}
+                <div class="col-4 col-md-2 text-center">
+                    <button class="btn btn-light league-btn" data-season-id="{{ league.season_2024_id|safe }}">
+                        <img src="{{ league.image }}" alt="{{ league.name }}" class="img-fluid">
+                        <p>{{ league.name }}</p>
+                    </button>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <div id="league-table-container" class="mt-4"></div>
+    </div>
+</div>
+{% endblock %}

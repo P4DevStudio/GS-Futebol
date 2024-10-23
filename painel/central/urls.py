@@ -1,22 +1,13 @@
 from django.urls import path
 from .views import (
-    DashboardTemplateView,
-    PaginaInicialView,
-    RecomendadosView,
-    FavoritosView,
-    ListaJogosView,
-    ListaLigasView,
+    ListaLigaView,
     ListaTimesView,
-    get_teams
+    TodayMatchesView
 )
 
 urlpatterns = [
-    path('dashboard/', DashboardTemplateView.as_view(), name='dashboard'),
-    path('pagina_inicial/', PaginaInicialView.as_view(), name='pagina_inicial'),
-    path('recomendados/', RecomendadosView.as_view(), name='recomendados'),
-    path('favoritos/', FavoritosView.as_view(), name='favoritos'),
-    path('lista_jogos/', ListaJogosView.as_view(), name='lista_jogos'),
-    path('lista_ligas/', ListaLigasView.as_view(), name='lista_ligas'),
-    path('lista_times/', ListaTimesView.as_view(), name='lista_times'),
-    path('api/times/<int:season_id>/', get_teams, name='get_teams'),
+    path('lista_ligas/', ListaLigaView.as_view(), name='lista_ligas'),
+    path('jogos_dia/', TodayMatchesView.as_view(), name='jogos_dia'),
+    path('lista_ligas/<int:leagueid>/', ListaLigaView.as_view(), name='lista_liga_with_id'),
+    path('lista_times/<int:timeid>/', ListaTimesView.as_view(), name='lista_times'),
 ]

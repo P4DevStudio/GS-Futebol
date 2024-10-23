@@ -1,114 +1,60 @@
 {% extends 'base.html' %}
-{% block title %}Lista de Times{% endblock %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+
 {% block content %}
-<div class="container-fluid">
-    <h4 class="text-center mt-4">Selecione uma Liga</h4>
-
-    <div class="row justify-content-center mt-4">
-        {% for league in league_data %}
-            <div class="col-4 col-md-2 text-center">
-                <!-- Capturando o season_2024_id sem pontos ou vírgulas -->
-                <button class="btn btn-light league-btn" data-season-id="{{ league.season_2024_id|safe }}">
-                    <img src="{{ league.image }}" alt="{{ league.name }}" class="img-fluid">
-                    <p>{{ league.name }}</p>
-                </button>
+<div class="main-content" id="main-content-container" style="margin-top: 10%">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <h4 class="text-center mt-4">Selecione uma Liga</h4>
             </div>
-        {% endfor %}
+        </div>
+
+        <!-- Botões para selecionar a liga -->
+        <div class="row justify-content-center mt-4">
+            {% for league in league_data %}
+                <div class="col-4 col-md-2 text-center">
+                    <button class="btn btn-light league-btn" data-season-id="{{ league.season_2024_id|safe }}">
+                        <img src="{{ league.image }}" alt="{{ league.name }}" class="img-fluid">
+                        <p>{{ league.name }}</p>
+                    </button>
+                </div>
+            {% endfor %}
+        </div>
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th>Competition Name</th>
+                    <th>Season</th>
+                    <th>suspended_matches</th>
+                    <th>homeAttackAdvantage</th>
+                    <th>homeDefenceAdvantage</th>
+                    <th>homeOverallAdvantage</th>
+                    <th>seasonGoals_overall</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for competition in competitions %}
+                <tr>
+                    <td>{{ competition.competition_id }}</td>
+                    <td>{{ competition.season }}</td>
+                    <td>{{ competition.suspended_matches }}</td>
+                    <td>{{ competition.homeAttackAdvantage }}</td>
+                    <td>{{ competition.homeDefenceAdvantage }}</td>
+                    <td>{{ competition.homeOverallAdvantage }}</td>
+                    <td>{{ competition.seasonGoals_overall }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7"></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>    
+        
+        <div id="league-table-container" class="mt-4"></div>
     </div>
-
-    <div id="team-list-container" class="mt-4"></div>
 </div>
-
-<script>
-    document.querySelectorAll('.league-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            // Captura o seasonId do botão clicado
-            let seasonId = this.getAttribute('data-season-id');
-
-            // Remove qualquer ponto no seasonId
-            seasonId = seasonId.replace('.', '');
-
-            // Verifica se o seasonId é válido
-            if (!seasonId || seasonId === 'undefined') {
-                console.error('Season ID não encontrado.');
-                return;
-            }
-
-            console.log(`Season ID selecionado: ${seasonId}`);
-
-            // Chave de API
-            const apiKey = 'db01a476916110021e97e90f1ecdb8f9c5574ded43012b2f24304e34ba394bbe';
-
-            // Geração da URL correta para buscar os times
-            const apiUrl = `https://api.football-data-api.com/league-teams?key=${apiKey}&season_id=${seasonId}&include=stats`;
-            console.log(`URL gerada para buscar os times: ${apiUrl}`);
-
-            // Fazendo a requisição para obter os times
-            fetch(apiUrl)
-            .then(response => response.json())
-            .then(data => {
-                const container = document.getElementById('team-list-container');
-                container.innerHTML = '';
-
-                // Verifica se o JSON retornou os times corretamente
-                if (!data || !data.data || data.data.length === 0) {
-                    container.innerHTML = '<p class="text-center">Nenhum time disponível para esta liga.</p>';
-                    return;
-                }
-
-                // Criação da tabela de times
-                const table = document.createElement('table');
-                table.classList.add('table', 'table-striped');
-
-                const thead = document.createElement('thead');
-                thead.classList.add('thead-dark');
-                const headerRow = document.createElement('tr');
-
-                // Cabeçalhos da tabela
-                const headers = ['Nome do Time', 'Vitórias', 'Empates', 'Derrotas', 'Gols Marcados'];
-                headers.forEach(headerText => {
-                    const th = document.createElement('th');
-                    th.textContent = headerText;
-                    headerRow.appendChild(th);
-                });
-                thead.appendChild(headerRow);
-                table.appendChild(thead);
-
-                const tbody = document.createElement('tbody');
-                data.data.forEach(team => {
-                    const row = document.createElement('tr');
-
-                    const nameCell = document.createElement('td');
-                    nameCell.textContent = team.name || 'N/A';
-                    row.appendChild(nameCell);
-
-                    const winsCell = document.createElement('td');
-                    winsCell.textContent = team.stats ? team.stats.wins : 'N/A';
-                    row.appendChild(winsCell);
-
-                    const drawsCell = document.createElement('td');
-                    drawsCell.textContent = team.stats ? team.stats.draws : 'N/A';
-                    row.appendChild(drawsCell);
-
-                    const lossesCell = document.createElement('td');
-                    lossesCell.textContent = team.stats ? team.stats.losses : 'N/A';
-                    row.appendChild(lossesCell);
-
-                    const goalsCell = document.createElement('td');
-                    goalsCell.textContent = team.stats ? team.stats.goals_scored : 'N/A';
-                    row.appendChild(goalsCell);
-
-                    tbody.appendChild(row);
-                });
-
-                table.appendChild(tbody);
-                container.appendChild(table);
-            })
-            .catch(error => {
-                console.error('Erro ao carregar os times:', error);
-                document.getElementById('team-list-container').innerHTML = '<p class="text-center">Erro ao carregar os times.</p>';
-            });
-        });
-    });
-</script>
 {% endblock %}

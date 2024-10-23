@@ -3,158 +3,112 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView
 import requests
+from django.views import View
+from django.core.cache import cache
+from dotenv import load_dotenv, find_dotenv
+import os
 
 # Configurando o logger
 logger = logging.getLogger(__name__)
+load_dotenv(find_dotenv())
+FOOTBALL_API_KEY = os.getenv('FOOTBALL_API_KEY')
 
-# Array para armazenar os season_id usados
 season_ids_used = []
+class ListaLigaView(View):
+    default_leagueid = 11321  # Default league ID
 
-class DashboardTemplateView(TemplateView):
-    template_name = 'central/main/dashboard.html'
+    def get(self, request, leagueid=None):
+        if leagueid is None:
+            leagueid = self.default_leagueid
+        # Example API URL with dynamic leagueid
+        api_url = f'https://api.football-data-api.com/league-teams?key={FOOTBALL_API_KEY}&season_id={leagueid}'
+        cache_key = f"league_data_{leagueid}"  # Cache key based on league ID
+        cache_timeout = 60 * 15  # 15 minutes cache timeout
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
+        # Check if the response is already cached
+        league_table = cache.get(cache_key)
+        if not league_table:
+            # Make the request to the external API
+            response = requests.get(api_url)
+            # Check if the request was successful (HTTP status 200)
+            if response.status_code == 200:
+                api_data = response.json().get('data', [])  # Extract the 'data' key from the response
 
-        # URL para buscar as ligas selecionadas
-        league_url = 'https://api.football-data-api.com/league-list?key=db01a476916110021e97e90f1ecdb8f9c5574ded43012b2f24304e34ba394bbe&chosen_leagues_only=true'
-        league_response = requests.get(league_url)
+                # Sort the data by table_position
+                league_table = sorted(api_data, key=lambda x: x.get('table_position', 0))
+                # Cache the API response
+                cache.set(cache_key, league_table, cache_timeout)
+            else:
+                league_table = None
 
-        if league_response.status_code == 200:
-            league_data = league_response.json().get('data', [])
-            filtered_leagues = []
-            for league in league_data:
-                if 'season' in league:
-                    for season in league['season']:
-                        if season['year'] == 2024:
-                            league_with_season_2024 = {
-                                'name': league['name'],
-                                'image': league['image'],
-                                'season_2024_id': season['id']
-                            }
-                            filtered_leagues.append(league_with_season_2024)
-                            break
+            # Pass the data and leagueid to the template
+        context = {
+            'leagueid': leagueid,     # Pass the leagueid
+            'league_table': league_table  # Pass the league table data
+        }
+        return render(request, 'central/main/lista_ligas.html', context)
+
+class ListaTimesView(View):
+    default_time_id = 59  
+    def get(self, request, timeid=None):
+        if timeid is None:
+            timeid = self.default_time_id
+        api_url = f'https://api.football-data-api.com/team?key={FOOTBALL_API_KEY}&team_id={timeid}&include=stats'
+        cache_key = f"timedata{timeid}"
+        cache_timeout =  0  # 15 minutes cache timeout
+
+        filtered_time_table = cache.get(cache_key)
+        #if not filtered_time_table:
+        response = requests.get(api_url)
+
+        if response.status_code == 200:
+            api_data = response.json().get('data', []) 
+            time_table = sorted(api_data, key=lambda x: x.get('table_position', 0))
+            logger.debug(time_table)
+            filtered_time_table = [
+        {
+            'season': team.get('season'),
+            'competition_id': team.get('competition_id'),
+            'suspended_matches': team.get('suspended_matches'),
+            'homeAttackAdvantage': team.get('homeAttackAdvantage'), 
+            'homeDefenceAdvantage': team.get('homeDefenceAdvantage'), 
+            'homeOverallAdvantage': team.get('homeOverallAdvantage'), 
+            'seasonGoals_overall': team.get('seasonGoals_overall'), 
+            'seasonConceded_overall': team.get('seasonConceded_overall'), 
+            'seasonGoalsTotal_overall': team.get('seasonGoalsTotal_overall'), 
+            'seasonGoalsTotal_home': team.get('seasonGoalsTotal_home'), 
+            'seasonGoalsTotal_away': team.get('seasonGoalsTotal_away'), 
+            'seasonScoredNum_overall': team.get('seasonScoredNum_overall'), 
+            'seasonScoredNum_home': team.get('seasonScoredNum_home'), 
+        }
+        for team in time_table
+    ]
+            cache.set(cache_key, filtered_time_table, cache_timeout)
         else:
-            filtered_leagues = []
+            time_table = None
+        context = {
+            'timeid': timeid,    
+            'competitions': filtered_time_table 
+        }
+        return render(request, 'central/main/lista_times.html', context)
+    
+class TodayMatchesView(View):
 
-        context['league_data'] = filtered_leagues
-        context['league_table'] = []  # Tabela inicial vazia
-        return context
+    def get(self, request):
+        api_url = f'https://api.football-data-api.com/todays-matches?key={FOOTBALL_API_KEY}'
+        cache_key = f"TodayMatches"  
+        cache_timeout = 60 * 15  # 15 minutes cache timeout
 
-    def post(self, request, *args, **kwargs):
-        season_id = request.POST.get('season_id')
-        logger.debug(f"Season ID recebido: {season_id}")
-
-        if '.' in season_id:
-            season_id = season_id.replace('.', '')
-
-        if season_id not in season_ids_used:
-            season_ids_used.append(season_id)
-
-        # URL da tabela da liga
-        table_url = f'https://api.football-data-api.com/league-tables?key=db01a476916110021e97e90f1ecdb8f9c5574ded43012b2f24304e34ba394bbe&season_id={season_id}'
-
-        logger.debug(f"URL gerada: {table_url}")
-
-        table_response = requests.get(table_url)
-
-        logger.debug(f"Status da API: {table_response.status_code}")
-        logger.debug(f"Resposta da API (texto): {table_response.text}")
-
-        if table_response.status_code == 200:
-            try:
-                league_table = table_response.json().get('data', {}).get('league_table', [])
-                logger.debug(f"Dados da tabela recebidos: {league_table}")
-            except ValueError:
-                logger.error(f"Erro ao decodificar JSON para season_id {season_id}")
-                return JsonResponse({'error': 'Resposta inválida da API.'})
-        else:
-            logger.error(f"Falha na requisição da API para season_id {season_id}")
-            return JsonResponse({'error': 'Falha ao obter dados da API.'})
-
-        return JsonResponse({'league_table': league_table})
-
-
-class PaginaInicialView(TemplateView):
-    template_name = 'central/main/desenvolvimento.html'
-
-
-class RecomendadosView(TemplateView):
-    template_name = 'central/main/desenvolvimento.html'
-
-
-class FavoritosView(TemplateView):
-    template_name = 'central/main/desenvolvimento.html'
-
-
-class ListaJogosView(TemplateView):
-    template_name = 'central/main/desenvolvimento.html'
-
-
-class ListaLigasView(DashboardTemplateView):
-    template_name = 'central/main/dashboard.html'
-
-
-class ListaTimesView(TemplateView):
-    template_name = 'central/main/lista_times.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # Usar a mesma lógica da Lista de Ligas para carregar as ligas e seus season IDs
-        league_url = 'https://api.football-data-api.com/league-list?key=db01a476916110021e97e90f1ecdb8f9c5574ded43012b2f24304e34ba394bbe&chosen_leagues_only=true'
-        league_response = requests.get(league_url)
-
-        if league_response.status_code == 200:
-            league_data = league_response.json().get('data', [])
-            filtered_leagues = []
-            for league in league_data:
-                if 'season' in league:
-                    for season in league['season']:
-                        if season['year'] == 2024:
-                            league_with_season_2024 = {
-                                'name': league['name'],
-                                'image': league['image'],
-                                'season_2024_id': season['id']
-                            }
-                            filtered_leagues.append(league_with_season_2024)
-                            break
-            context['league_data'] = filtered_leagues
-        else:
-            context['league_data'] = []
-
-        return context
-
-
-def get_teams(request, season_id):
-    """Função que faz a requisição para obter as equipes de uma liga filtrada"""
-    api_key = 'db01a476916110021e97e90f1ecdb8f9c5574ded43012b2f24304e34ba394bbe'
-
-    # Logando o Season ID recebido
-    logger.debug(f"Season ID recebido: {season_id}")
-
-    # Corrigindo o season_id (removendo pontos, se houver)
-    if '.' in season_id:
-        season_id = season_id.replace('.', '')
-
-    # Logando a URL gerada
-    teams_url = f'https://api.football-data-api.com/league-teams?key={api_key}&season_id={season_id}&include=stats'
-    logger.debug(f"URL gerada: {teams_url}")
-
-    # Fazendo a requisição para obter os times
-    response = requests.get(teams_url)
-
-    # Logando o status da API e a resposta
-    logger.debug(f"Status da API: {response.status_code}")
-    logger.debug(f"Resposta da API (texto): {response.text}")
-
-    if response.status_code == 200:
-        try:
-            teams_data = response.json().get('data', [])
-            logger.debug(f"Dados dos times recebidos: {teams_data}")
-            return JsonResponse({'teams': teams_data})
-        except ValueError:
-            logger.error(f"Erro ao decodificar JSON para season_id {season_id}")
-            return JsonResponse({'error': 'Resposta inválida da API.'}, status=500)
-    else:
-        logger.error(f"Erro ao buscar os times para o season_id {season_id}")
-        return JsonResponse({'error': 'Erro ao obter os times da API.'}, status=500)
+        match_data = cache.get(cache_key)
+        if not match_data:
+            response = requests.get(api_url)
+            if response.status_code == 200:
+                match_data = response.json()['data']
+                cache.set(cache_key, match_data, cache_timeout)
+            else:
+                match_data = None
+        context = {
+            'matches': match_data,
+        }
+        return render(request, 'central/main/jogos_dia.html', context)
+    

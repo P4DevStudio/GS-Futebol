@@ -1,0 +1,122 @@
+
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="main-content" id="main-content-container" style="margin-top: 10%">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <h4 class="text-center mt-4">Selecione uma Liga</h4>
+            </div>
+        </div>
+
+        <!-- Botões para selecionar a liga -->
+        <div class="row justify-content-center mt-4">
+            {% for league in league_data %}
+                <div class="col-4 col-md-2 text-center">
+                    <button class="btn btn-light league-btn" data-season-id="{{ league.season_2024_id|safe }}">
+                        <img src="{{ league.image }}" alt="{{ league.name }}" class="img-fluid">
+                        <p>{{ league.name }}</p>
+                    </button>
+                </div>
+            {% endfor %}
+        </div>
+        <h1>League Table for League {{ leagueid }}</h1>
+        <h1>Match List</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Home Team</th>
+                    <th>Away Team</th>
+                    <th>Season</th>
+                    <th>Status</th>
+                    <th>Game Week</th>
+                    <th>Home Goals</th>
+                    <th>Away Goals</th>
+                    <th>Stadium</th>
+                    <th>Odds FT 1</th>
+                    <th>Odds FT X</th>
+                    <th>Odds FT 2</th>
+                    <th>Odds Over 0.5</th>
+                    <th>Odds Under 0.5</th>
+                    <th>Team A Corners</th>
+                    <th>Team B Corners</th>
+                    <th>Team A Offsides</th>
+                    <th>Team B Offsides</th>
+                    <th>Team A Yellow Cards</th>
+                    <th>Team B Yellow Cards</th>
+                    <th>Team A Red Cards</th>
+                    <th>Team B Red Cards</th>
+                    <th>Team A Shots</th>
+                    <th>Team B Shots</th>
+                    <th>Team A Fouls</th>
+                    <th>Team B Fouls</th>
+                    <th>Attendance</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for match in matches %}
+                <tr>
+                    <!-- Home and Away Teams -->
+                    <td>
+                        <img src="{{ match.home_image }}" alt="{{ match.home_name }}" width="50">
+                        <a href="{{ match.home_url }}">{{ match.home_name }}</a>
+                    </td>
+                    <td>
+                        <img src="{{ match.away_image }}" alt="{{ match.away_name }}" width="50">
+                        <a href="{{ match.away_url }}">{{ match.away_name }}</a>
+                    </td>
+                    
+                    <!-- General Information -->
+                    <td>{{ match.season }}</td>
+                    <td>{{ match.status }}</td>
+                    <td>{{ match.game_week }}</td>
+    
+                    <!-- Goals Information -->
+                    <td>{{ match.homeGoalCount }}</td>
+                    <td>{{ match.awayGoalCount }}</td>
+    
+                    <!-- Stadium -->
+                    <td>{{ match.stadium_name }}</td>
+    
+                    <!-- Odds -->
+                    <td>{{ match.odds_ft_1 }}</td>
+                    <td>{{ match.odds_ft_x }}</td>
+                    <td>{{ match.odds_ft_2 }}</td>
+                    <td>{{ match.odds_ft_over05 }}</td>
+                    <td>{{ match.odds_ft_under05 }}</td>
+    
+                    <!-- Corners and Offsides -->
+                    <td>{{ match.team_a_corners }}</td>
+                    <td>{{ match.team_b_corners }}</td>
+                    <td>{{ match.team_a_offsides }}</td>
+                    <td>{{ match.team_b_offsides }}</td>
+    
+                    <!-- Cards -->
+                    <td>{{ match.team_a_yellow_cards }}</td>
+                    <td>{{ match.team_b_yellow_cards }}</td>
+                    <td>{{ match.team_a_red_cards }}</td>
+                    <td>{{ match.team_b_red_cards }}</td>
+    
+                    <!-- Shots and Fouls -->
+                    <td>{{ match.team_a_shots }}</td>
+                    <td>{{ match.team_b_shots }}</td>
+                    <td>{{ match.team_a_fouls }}</td>
+                    <td>{{ match.team_b_fouls }}</td>
+    
+                    <!-- Attendance -->
+                    <td>{{ match.attendance }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="26">No matches available</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>    
+        <div id="league-table-container" class="mt-4"></div>
+    </div>
+</div>
+{% endblock %}
