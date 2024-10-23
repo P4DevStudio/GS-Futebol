@@ -7,7 +7,7 @@ from django.views import View
 from django.core.cache import cache
 from dotenv import load_dotenv, find_dotenv
 import os
-
+import json
 # Configurando o logger
 logger = logging.getLogger(__name__)
 load_dotenv(find_dotenv())
@@ -60,7 +60,14 @@ class ListaTimesView(View):
         filtered_time_table = cache.get(cache_key)
         #if not filtered_time_table:
         response = requests.get(api_url)
-
+        league_response = requests.get(f'https://api.football-data-api.com/league-list?key={FOOTBALL_API_KEY}')
+        if league_response.status_code == 200:
+            league_data = league_response.json()
+            id_to_name = {}
+            for league in league_data['data']:
+                league_name = league['name']
+                for season in league['season']:
+                    id_to_name[season['id']] = league_name
         if response.status_code == 200:
             api_data = response.json().get('data', []) 
             filtered_time_table = []  # Initialize an empty list
@@ -81,6 +88,7 @@ class ListaTimesView(View):
                     'seasonScoredNum_overall': stats.get('seasonScoredNum_overall'), 
                     'seasonScoredNum_home': stats.get('seasonScoredNum_home')
                 }
+                result["competition_name"] = find_name_by_id(result["competition_id"],id_to_name)
                 filtered_time_table.append(result) 
             cache.set(cache_key, filtered_time_table, cache_timeout)
         else:
@@ -90,7 +98,8 @@ class ListaTimesView(View):
             'competitions': filtered_time_table 
         }
         return render(request, 'central/main/lista_times.html', context)
-    
+def find_name_by_id(season_id,id_to_name):
+    return id_to_name.get(season_id, "ID not found")
 class TodayMatchesView(View):
 
     def get(self, request):

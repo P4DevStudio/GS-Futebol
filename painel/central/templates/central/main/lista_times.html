@@ -38,7 +38,8 @@
             <tbody>
                 {% for competition in competitions %}
                 <tr>
-                    <td>{{ competition.competition_id }}</td>
+                    <td>
+                        <a href="{% url 'lista_liga_with_id' leagueid=competition.competition_id %}">{{ competition.competition_name  }}</a></td>
                     <td>{{ competition.season }}</td>
                     <td>{{ competition.suspended_matches }}</td>
                     <td>{{ competition.homeAttackAdvantage }}</td>
